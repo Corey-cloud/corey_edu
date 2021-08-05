@@ -1,10 +1,10 @@
 package com.atguigu.security.config;
 
-import com.atguigu.security.security.TokenManager;
 import com.atguigu.security.filter.TokenAuthenticationFilter;
 import com.atguigu.security.filter.TokenLoginFilter;
 import com.atguigu.security.security.DefaultPasswordEncoder;
 import com.atguigu.security.security.TokenLogoutHandler;
+import com.atguigu.security.security.TokenManager;
 import com.atguigu.security.security.UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -79,10 +79,8 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/api/**",
-//                "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**"
-//               );
-        web.ignoring().antMatchers("/*/**"
-        );
+        web.ignoring().antMatchers("/api/**",
+                "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**"
+               );
     }
 }

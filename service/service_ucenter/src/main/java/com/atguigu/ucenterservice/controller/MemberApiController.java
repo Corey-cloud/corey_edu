@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(description="用户登录注册")
 @RestController
-@CrossOrigin //跨域
+//@CrossOrigin //跨域
 @RequestMapping("/ucenterservice/apimember")
 public class MemberApiController {
 

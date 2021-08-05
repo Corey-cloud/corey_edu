@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2021-07-27
  */
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/cmsservice/crm-banner")
 public class CrmBannerController {
 

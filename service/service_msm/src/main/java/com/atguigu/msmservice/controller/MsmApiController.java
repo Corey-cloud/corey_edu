@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  **/
 
 @RestController
-@CrossOrigin //跨域
+//@CrossOrigin //跨域
 @RequestMapping("/edumsm")
 public class MsmApiController {
 
