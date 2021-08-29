@@ -1,10 +1,11 @@
 # 在线教育系统
 
 #### 介绍
-{**在线教育系统后端**
-技术栈：SpringBoot + SpringCloud + MyBatis-Plus + HttpClient + MySQL + Maven + EasyExcel + nginx
-其中涉及到的中间件包括Redis、阿里云OSS、阿里云视频点播
-业务中使用ECharts做图表展示、使用EasyExcel完成分类批量添加、分布式单点登录使用了JWT}
+**在线教育系统后端**
+1.  技术栈：SpringBoot + SpringCloud + MyBatis-Plus + HttpClient + MySQL + Maven + EasyExcel + nginx
+2.  其中涉及到的中间件包括Redis、阿里云OSS、阿里云视频点播
+3.  业务中使用ECharts做图表展示、使用EasyExcel完成分类批量添加、分布式单点登录使用了JWT
+
 
 #### 软件架构
 后端技术栈：SpringBoot + SpringCloud + MyBatis-Plus + HttpClient + MySQL + Maven + EasyExcel + nginx
@@ -14,11 +15,13 @@
 #### 安装教程
 
 1.  Fork 本仓库
-2.  使用Jenkins+docker实现自动化部署
+3.  使用Jenkins+docker实现自动化部署
+
 
 #### 使用说明
 
 1.  该板块提供的是后端代码部分，前端部分请到对应的仓库
+
 
 #### 参与贡献
 
