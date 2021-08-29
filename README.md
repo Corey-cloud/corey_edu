@@ -1,25 +1,24 @@
-# guli_parent
+# 在线教育系统
 
 #### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+{**在线教育系统后端**
+技术栈：SpringBoot + SpringCloud + MyBatis-Plus + HttpClient + MySQL + Maven + EasyExcel + nginx
+其中涉及到的中间件包括Redis、阿里云OSS、阿里云视频点播
+业务中使用ECharts做图表展示、使用EasyExcel完成分类批量添加、分布式单点登录使用了JWT}
 
 #### 软件架构
-基于SpringBoot+SpringCloud、redis等相关技术开发的一款在线教育项目
+后端技术栈：SpringBoot + SpringCloud + MyBatis-Plus + HttpClient + MySQL + Maven + EasyExcel + nginx
+中间件包括Redis、阿里云OSS、阿里云视频点播
 
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  Fork 本仓库
+2.  使用Jenkins+docker实现自动化部署
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  该板块提供的是后端代码部分，前端部分请到对应的仓库
 
 #### 参与贡献
 
@@ -31,9 +30,9 @@ Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN�
 
 #### 特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1.  在线教育系统，分为前台网站系统和后台管理系统，B2C模式 
+2.  前台用户系统包括课程、名师、问答、文章几大部分，使用了微服务技术架构，前后端分离开发   
+3.  前端技术栈：Node.js + Vue.js + element-ui + NUXT + ECharts
+4.  后端技术栈：SpringBoot + SpringCloud + MyBatis-Plus + HttpClient + MySQL + Maven + EasyExcel + nginx
+5.  其中涉及到的中间件包括Redis、阿里云OSS、阿里云视频点播
+6.  业务中使用ECharts做图表展示、使用EasyExcel完成分类批量添加、分布式单点登录使用了JWT
