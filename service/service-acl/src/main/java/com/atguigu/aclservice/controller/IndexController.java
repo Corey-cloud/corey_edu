@@ -26,7 +26,7 @@ public class IndexController {
      */
     @GetMapping("info")
     public R info(){
-        //获取当前登录用户用户名
+        //获取用户信息
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Map<String, Object> userInfo = indexService.getUserInfo(username);
         return R.ok().data(userInfo);
@@ -38,7 +38,7 @@ public class IndexController {
      */
     @GetMapping("menu")
     public R getMenu(){
-        //获取当前登录用户用户名
+        //获取菜单
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         List<JSONObject> permissionList = indexService.getMenu(username);
         return R.ok().data("permissionList", permissionList);

@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.xmlbeans.impl.schema.StscChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +47,8 @@ public class UserController {
             @ApiParam(name = "limit", value = "每页记录数", required = true)
             @PathVariable Long limit,
 
-            @ApiParam(name = "courseQuery", value = "查询对象", required = false)
-             User userQueryVo) {
+            @ApiParam(name = "userQuery", value = "查询对象", required = false)
+                    @RequestBody User userQueryVo) {
         Page<User> pageParam = new Page<>(page, limit);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if(!StringUtils.isEmpty(userQueryVo.getUsername())) {
@@ -55,6 +56,7 @@ public class UserController {
         }
 
         IPage<User> pageModel = userService.page(pageParam, wrapper);
+        System.out.println("总记录数："+pageModel.getTotal());
         return R.ok().data("items", pageModel.getRecords()).data("total", pageModel.getTotal());
     }
 
@@ -64,6 +66,15 @@ public class UserController {
         user.setPassword(MD5.encrypt(user.getPassword()));
         userService.save(user);
         return R.ok();
+    }
+
+    @ApiOperation(value = "根据id获取用户信息")
+    @GetMapping("/get/{id}")
+    public R getById(@PathVariable String id) {
+        User user = userService.getById(id);
+        System.out.println(123456);
+        System.out.println(user);
+        return R.ok().data("data", user);
     }
 
     @ApiOperation(value = "修改管理用户")
