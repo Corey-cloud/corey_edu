@@ -1,6 +1,6 @@
 package com.atguigu.aclservice.service.impl;
 
-import com.atguigu.aclservice.entity.User;
+import com.atguigu.aclservice.model.entity.User;
 import com.atguigu.aclservice.mapper.UserMapper;
 import com.atguigu.aclservice.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

@@ -1,7 +1,7 @@
 package com.atguigu.aclservice.helper;
 
 import com.alibaba.fastjson.JSONObject;
-import com.atguigu.aclservice.entity.Permission;
+import com.atguigu.aclservice.model.entity.Permission;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;

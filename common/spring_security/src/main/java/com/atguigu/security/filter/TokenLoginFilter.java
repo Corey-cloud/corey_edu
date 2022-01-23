@@ -86,6 +86,6 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException e) throws IOException, ServletException {
-        ResponseUtil.out(response, R.error());
+        ResponseUtil.out(response, R.error().message("用户名或密码错误！"));
     }
 }

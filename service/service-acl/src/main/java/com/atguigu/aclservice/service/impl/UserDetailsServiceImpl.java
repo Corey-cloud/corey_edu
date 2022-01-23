@@ -1,6 +1,6 @@
 package com.atguigu.aclservice.service.impl;
 
-import com.atguigu.aclservice.entity.User;
+import com.atguigu.aclservice.model.entity.User;
 import com.atguigu.aclservice.service.PermissionService;
 import com.atguigu.aclservice.service.UserService;
 import com.atguigu.security.entity.SecurityUser;
@@ -42,8 +42,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userService.selectByUsername(username);
 
         // 判断用户是否存在
-        if (null == user){
-            //throw new UsernameNotFoundException("用户名不存在！");
+        if (user == null){
+            throw new UsernameNotFoundException("用户名不存在！");
         }
         // 返回UserDetails实现类
         com.atguigu.security.entity.User curUser = new com.atguigu.security.entity.User();

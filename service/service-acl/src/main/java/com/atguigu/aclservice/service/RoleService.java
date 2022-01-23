@@ -1,6 +1,6 @@
 package com.atguigu.aclservice.service;
 
-import com.atguigu.aclservice.entity.Role;
+import com.atguigu.aclservice.model.entity.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

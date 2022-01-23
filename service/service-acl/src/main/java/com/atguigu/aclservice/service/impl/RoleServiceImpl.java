@@ -1,7 +1,7 @@
 package com.atguigu.aclservice.service.impl;
 
-import com.atguigu.aclservice.entity.Role;
-import com.atguigu.aclservice.entity.UserRole;
+import com.atguigu.aclservice.model.entity.Role;
+import com.atguigu.aclservice.model.entity.UserRole;
 import com.atguigu.aclservice.mapper.RoleMapper;
 import com.atguigu.aclservice.service.RoleService;
 import com.atguigu.aclservice.service.UserRoleService;

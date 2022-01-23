@@ -1,9 +1,9 @@
 package com.atguigu.aclservice.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.atguigu.aclservice.entity.Permission;
-import com.atguigu.aclservice.entity.RolePermission;
-import com.atguigu.aclservice.entity.User;
+import com.atguigu.aclservice.model.entity.Permission;
+import com.atguigu.aclservice.model.entity.RolePermission;
+import com.atguigu.aclservice.model.entity.User;
 import com.atguigu.aclservice.helper.MemuHelper;
 import com.atguigu.aclservice.helper.PermissionHelper;
 import com.atguigu.aclservice.mapper.PermissionMapper;
@@ -18,7 +18,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>

@@ -1,4 +1,4 @@
-package com.atguigu.aclservice.entity;
+package com.atguigu.aclservice.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 

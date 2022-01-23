@@ -1,7 +1,7 @@
 package com.atguigu.aclservice.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.atguigu.aclservice.entity.Permission;
+import com.atguigu.aclservice.model.entity.Permission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

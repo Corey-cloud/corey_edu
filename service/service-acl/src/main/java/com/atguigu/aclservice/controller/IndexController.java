@@ -1,11 +1,8 @@
 package com.atguigu.aclservice.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.atguigu.aclservice.entity.Permission;
 import com.atguigu.aclservice.service.IndexService;
-import com.atguigu.aclservice.service.PermissionService;
 import com.atguigu.commonutils.R;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;

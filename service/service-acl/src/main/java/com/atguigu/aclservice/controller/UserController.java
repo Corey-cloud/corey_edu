@@ -1,18 +1,19 @@
 package com.atguigu.aclservice.controller;
 
 
-import com.atguigu.aclservice.entity.User;
+import com.atguigu.aclservice.model.entity.User;
 import com.atguigu.aclservice.service.RoleService;
 import com.atguigu.aclservice.service.UserService;
 import com.atguigu.commonutils.MD5;
 import com.atguigu.commonutils.R;
+import com.atguigu.servicebase.exceptionhandler.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.xmlbeans.impl.schema.StscChecker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +49,7 @@ public class UserController {
             @PathVariable Long limit,
 
             @ApiParam(name = "userQuery", value = "查询对象", required = false)
-                    @RequestBody User userQueryVo) {
+                    User userQueryVo) {
         Page<User> pageParam = new Page<>(page, limit);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if(!StringUtils.isEmpty(userQueryVo.getUsername())) {
@@ -56,32 +57,41 @@ public class UserController {
         }
 
         IPage<User> pageModel = userService.page(pageParam, wrapper);
-        System.out.println("总记录数："+pageModel.getTotal());
-        return R.ok().data("items", pageModel.getRecords()).data("total", pageModel.getTotal());
-    }
-
-    @ApiOperation(value = "新增管理用户")
-    @PostMapping("save")
-    public R save(@RequestBody User user) {
-        user.setPassword(MD5.encrypt(user.getPassword()));
-        userService.save(user);
-        return R.ok();
+        int count = userService.count(wrapper);
+        return R.ok().data("items", pageModel.getRecords()).data("total", count);
     }
 
     @ApiOperation(value = "根据id获取用户信息")
     @GetMapping("/get/{id}")
     public R getById(@PathVariable String id) {
         User user = userService.getById(id);
-        System.out.println(123456);
-        System.out.println(user);
         return R.ok().data("data", user);
+    }
+
+    @ApiOperation(value = "新增管理用户")
+    @PostMapping("save")
+    public R save(@RequestBody User user) {
+        System.out.println(user);
+        user.setPassword(MD5.encrypt(user.getPassword()));
+        try {
+            userService.save(user);
+        } catch (DuplicateKeyException e) {
+            throw new GuliException(20001, "该用户名已存在");
+        }
+
+        return R.ok().message("添加用户成功");
     }
 
     @ApiOperation(value = "修改管理用户")
     @PutMapping("update")
     public R updateById(@RequestBody User user) {
-        userService.updateById(user);
-        return R.ok();
+        try {
+            userService.updateById(user);
+        } catch (DuplicateKeyException e) {
+            throw new GuliException(20001, "该用户名已存在");
+        }
+
+        return R.ok().message("修改用户成功");
     }
 
     @ApiOperation(value = "删除管理用户")

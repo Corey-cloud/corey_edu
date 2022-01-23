@@ -1,6 +1,6 @@
 package com.atguigu.aclservice.service;
 
-import com.atguigu.aclservice.entity.User;
+import com.atguigu.aclservice.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

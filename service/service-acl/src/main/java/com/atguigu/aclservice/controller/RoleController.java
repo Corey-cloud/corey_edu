@@ -1,7 +1,7 @@
 package com.atguigu.aclservice.controller;
 
 
-import com.atguigu.aclservice.entity.Role;
+import com.atguigu.aclservice.model.entity.Role;
 import com.atguigu.aclservice.service.RoleService;
 import com.atguigu.commonutils.R;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

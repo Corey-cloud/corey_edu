@@ -1,8 +1,8 @@
 package com.atguigu.aclservice.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.atguigu.aclservice.entity.Role;
-import com.atguigu.aclservice.entity.User;
+import com.atguigu.aclservice.model.entity.Role;
+import com.atguigu.aclservice.model.entity.User;
 import com.atguigu.aclservice.service.IndexService;
 import com.atguigu.aclservice.service.PermissionService;
 import com.atguigu.aclservice.service.RoleService;
