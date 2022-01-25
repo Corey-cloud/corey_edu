@@ -119,7 +119,23 @@ public class UserController {
 
     @ApiOperation(value = "修改管理用户")
     @PutMapping("update")
-    public R updateById(@RequestBody User user) {
+    public R updateById(@RequestBody UserVo userVo) {
+
+        // 将从前端获取到的用户加密信息进行解密
+        userVo.setUsername(RSAUtils.decryptBase64(userVo.getUsername()));
+
+        // 后端校验
+        String regex1 = "[A-Za-z0-9]{5,10}";
+        String regex2 = "[A-Za-z0-9]{2,8}";
+        if (!userVo.getUsername().matches(regex1)) {
+            throw new GuliException(20001, "用户名不得小于5个或大于10个字符!");
+        }
+        if (!userVo.getNickName().matches(regex2)) {
+            throw new GuliException(20001, "昵称不得小于2个或大于8个字符!");
+        }
+
+        User user = new User();
+        BeanUtils.copyProperties(userVo, user);
 
         try {
             userService.updateById(user);
