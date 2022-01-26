@@ -89,14 +89,7 @@ public class UserController {
         userVo.setCheckPass(RSAUtils.decryptBase64(userVo.getCheckPass()));
 
         // 后端校验
-        String regex1 = "[A-Za-z0-9]{5,10}";
-        String regex2 = "[A-Za-z0-9]{2,8}";
-        if (!userVo.getUsername().matches(regex1)) {
-            throw new GuliException(20001, "用户名不得小于5个或大于10个字符!");
-        }
-        if (!userVo.getNickName().matches(regex2)) {
-            throw new GuliException(20001, "昵称不得小于2个或大于8个字符!");
-        }
+        check(userVo);
         if (!userVo.getPass().matches("\\w{6,16}")) {
             throw new GuliException(20001, "密码不能小于6个或大于16个字符");
         }
@@ -125,14 +118,7 @@ public class UserController {
         userVo.setUsername(RSAUtils.decryptBase64(userVo.getUsername()));
 
         // 后端校验
-        String regex1 = "[A-Za-z0-9]{5,10}";
-        String regex2 = "[A-Za-z0-9]{2,8}";
-        if (!userVo.getUsername().matches(regex1)) {
-            throw new GuliException(20001, "用户名不得小于5个或大于10个字符!");
-        }
-        if (!userVo.getNickName().matches(regex2)) {
-            throw new GuliException(20001, "昵称不得小于2个或大于8个字符!");
-        }
+        check(userVo);
 
         User user = new User();
         BeanUtils.copyProperties(userVo, user);
@@ -144,6 +130,17 @@ public class UserController {
         }
 
         return R.ok().message("修改用户成功");
+    }
+
+    private void check(UserVo userVo) {
+        String regex1 = "[A-Za-z0-9]{5,10}";
+        String regex2 = "[A-Za-z0-9]{2,8}";
+        if (!userVo.getUsername().matches(regex1)) {
+            throw new GuliException(20001, "用户名不得小于5个或大于10个字符!");
+        }
+        if (!userVo.getNickName().matches(regex2)) {
+            throw new GuliException(20001, "昵称不得小于2个或大于8个字符!");
+        }
     }
 
     @ApiOperation(value = "删除管理用户")
