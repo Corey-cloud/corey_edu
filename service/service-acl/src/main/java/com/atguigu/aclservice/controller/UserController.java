@@ -45,7 +45,8 @@ public class UserController {
 
     @ApiOperation(value = "获取公钥")
     @GetMapping("/getPublicKey")
-    public R getKey(HttpServletRequest request) {
+    public R getKey() {
+        System.out.println("------获取公钥------");
         String publicKey = RSAUtils.generateBase64PublicKey();
         System.out.println(publicKey);
         return R.ok().data("publicKey", publicKey);
@@ -73,7 +74,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据id获取用户信息")
-    @GetMapping("/get/{id}")
+    @GetMapping("get/{id}")
     public R getById(@PathVariable String id) {
         User user = userService.getById(id);
         return R.ok().data("data", user);

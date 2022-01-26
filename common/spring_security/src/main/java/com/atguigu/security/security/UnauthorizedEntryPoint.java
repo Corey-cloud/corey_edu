@@ -24,6 +24,6 @@ public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
 
-        ResponseUtil.out(response, R.error());
+        ResponseUtil.out(response, R.error().message("未授权"));
     }
 }

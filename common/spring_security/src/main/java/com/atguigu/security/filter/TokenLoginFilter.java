@@ -1,6 +1,7 @@
 package com.atguigu.security.filter;
 
 import com.atguigu.commonutils.R;
+import com.atguigu.commonutils.RSAUtils;
 import com.atguigu.commonutils.ResponseUtil;
 import com.atguigu.security.entity.SecurityUser;
 import com.atguigu.security.entity.User;
@@ -48,7 +49,8 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
             throws AuthenticationException {
         try {
             User user = new ObjectMapper().readValue(req.getInputStream(), User.class);
-            // user.getUsername()
+            user.setUsername(RSAUtils.decryptBase64(user.getUsername()));
+            user.setPassword(RSAUtils.decryptBase64(user.getPassword()));
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), new ArrayList<>()));
         } catch (IOException e) {
             throw new RuntimeException(e);
