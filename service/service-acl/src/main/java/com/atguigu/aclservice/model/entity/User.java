@@ -27,11 +27,11 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "会员id")
+    @ApiModelProperty(value = "用户id")
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
-    @ApiModelProperty(value = "微信openid")
+    @ApiModelProperty(value = "用户名")
     private String username;
 
     @ApiModelProperty(value = "密码")

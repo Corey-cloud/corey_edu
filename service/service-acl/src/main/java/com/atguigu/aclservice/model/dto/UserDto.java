@@ -1,26 +1,16 @@
-package com.atguigu.aclservice.model.vo;
+package com.atguigu.aclservice.model.dto;
 
-import com.baomidou.mybatisplus.annotation.*;
-import io.swagger.annotations.ApiModel;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
- * <p>
- * 用户表
- * </p>
- *
- * @author testjava
- * @since 2020-01-12
- */
-@Data
-public class UserVo implements Serializable {
+ * Created by corey on 2022/1/28
+ **/
 
+@Data
+public class UserDto {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "用户id")
@@ -30,6 +20,12 @@ public class UserVo implements Serializable {
     @ApiModelProperty(value = "用户名")
     private String username;
 
+    @ApiModelProperty(value = "密码")
+    private String pass;
+
+    @ApiModelProperty(value = "确认密码")
+    private String checkPass;
+
     @ApiModelProperty(value = "昵称")
     private String nickName;
 
@@ -38,10 +34,4 @@ public class UserVo implements Serializable {
 
     @ApiModelProperty(value = "用户签名")
     private String token;
-
-    @ApiModelProperty(value = "创建时间")
-    private Date gmtCreate;
-
-    @ApiModelProperty(value = "更新时间")
-    private Date gmtModified;
 }

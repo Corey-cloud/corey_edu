@@ -1,6 +1,7 @@
 package com.atguigu.aclservice.controller;
 
 
+import com.atguigu.aclservice.model.dto.UserDto;
 import com.atguigu.aclservice.model.entity.User;
 import com.atguigu.aclservice.model.vo.UserVo;
 import com.atguigu.aclservice.service.RoleService;
@@ -20,7 +21,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ import java.util.Map;
  * @since 2020-01-12
  */
 @RestController
-@RequestMapping("/admin/acl/user")
+@RequestMapping("/admin/acl")
 //@CrossOrigin
 public class UserController {
 
@@ -44,7 +45,7 @@ public class UserController {
     private RoleService roleService;
 
     @ApiOperation(value = "获取公钥")
-    @GetMapping("/getPublicKey")
+    @GetMapping("/publicKey")
     public R getKey() {
         System.out.println("------获取公钥------");
         String publicKey = RSAUtils.generateBase64PublicKey();
@@ -52,113 +53,156 @@ public class UserController {
         return R.ok().data("publicKey", publicKey);
     }
 
-    @ApiOperation(value = "获取管理用户分页列表")
-    @GetMapping("{page}/{limit}")
+    @ApiOperation(value = "获取用户分页列表")
+    @GetMapping("/users")
     public R index(
-            @ApiParam(name = "page", value = "当前页码", required = true)
-            @PathVariable Integer page,
+            @ApiParam(name = "page", value = "当前页", required = true)
+            @RequestParam Integer page,
 
-            @ApiParam(name = "limit", value = "每页记录数", required = true)
-            @PathVariable Integer limit,
+            @ApiParam(name = "limit", value = "页大小", required = true)
+            @RequestParam Integer limit,
 
             @ApiParam(name = "userQuery", value = "查询对象", required = false)
-                    User userQueryVo) {
+            UserVo userQueryVo) {
+
+        // 分页构造器
         Page<User> pageParam = new Page<>(page, limit);
+
+        // sql条件构造器
         QueryWrapper<User> wrapper = new QueryWrapper<>();
+
+        // 当查询条件不为空
         if (!StringUtils.isEmpty(userQueryVo.getUsername())) {
             wrapper.like("username", userQueryVo.getUsername());
         }
+        if (!StringUtils.isEmpty(userQueryVo.getNickName())) {
+            wrapper.like("nick_name", userQueryVo.getNickName());
+        }
+
+        // 分页查询用户信息
         IPage<User> pageModel = userService.page(pageParam, wrapper);
-        int count = userService.count(wrapper);
-        return R.ok().data("items", pageModel.getRecords()).data("total", count);
+        List<User> userRecords = pageModel.getRecords();
+
+        // 隐藏表结构，转成VO
+        List<UserVo> userInfoList = new ArrayList<>();
+        for (User user : userRecords) {
+            UserVo userVo = new UserVo();
+            BeanUtils.copyProperties(user, userVo);
+            userInfoList.add(userVo);
+        }
+
+        return R.ok().data("userInfoList", userInfoList).data("total", pageModel.getTotal());
     }
 
-    @ApiOperation(value = "根据id获取用户信息")
-    @GetMapping("get/{id}")
+    @ApiOperation(value = "根据id获取")
+    @GetMapping("/users/{id}")
     public R getById(@PathVariable String id) {
         User user = userService.getById(id);
-        return R.ok().data("data", user);
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(user, userVo);
+        return R.ok().data("userInfo", userVo);
     }
 
-    @ApiOperation(value = "新增管理用户")
-    @PostMapping("save")
-    public R save(@RequestBody UserVo userVo) {
+    @ApiOperation(value = "新增")
+    @PostMapping("/users")
+    public R save(@RequestBody UserDto userDto) {
 
-        // 将从前端获取到的用户加密信息进行解密
-        userVo.setUsername(RSAUtils.decryptBase64(userVo.getUsername()));
-        userVo.setPass(RSAUtils.decryptBase64(userVo.getPass()));
-        userVo.setCheckPass(RSAUtils.decryptBase64(userVo.getCheckPass()));
+        // 信息解密
+        userDto.setUsername(RSAUtils.decryptBase64(userDto.getUsername()));
+        userDto.setPass(RSAUtils.decryptBase64(userDto.getPass()));
+        userDto.setCheckPass(RSAUtils.decryptBase64(userDto.getCheckPass()));
 
         // 后端校验
-        check(userVo);
-        if (!userVo.getPass().matches("\\w{6,16}")) {
-            throw new GuliException(20001, "密码不能小于6个或大于16个字符");
-        }
-        if (!userVo.getPass().equals(userVo.getCheckPass())) {
-            throw new GuliException(20001, "两次输入密码不一致！");
-        }
-
-        User user = new User();
-        BeanUtils.copyProperties(userVo, user);
-        user.setPassword(MD5.encrypt(userVo.getPass()));
-
-        try {
-            userService.save(user);
-        } catch (DuplicateKeyException e) {
-            throw new GuliException(20001, "该用户名已存在");
-        }
-
-        return R.ok().message("添加用户成功");
-    }
-
-    @ApiOperation(value = "修改管理用户")
-    @PutMapping("update")
-    public R updateById(@RequestBody UserVo userVo) {
-
-        // 将从前端获取到的用户加密信息进行解密
-        userVo.setUsername(RSAUtils.decryptBase64(userVo.getUsername()));
-
-        // 后端校验
-        check(userVo);
-
-        User user = new User();
-        BeanUtils.copyProperties(userVo, user);
-
-        try {
-            userService.updateById(user);
-        } catch (DuplicateKeyException e) {
-            throw new GuliException(20001, "该用户名已存在");
-        }
-
-        return R.ok().message("修改用户成功");
-    }
-
-    private void check(UserVo userVo) {
         String regex1 = "[A-Za-z0-9]{5,10}";
-        String regex2 = "[A-Za-z0-9]{2,8}";
-        if (!userVo.getUsername().matches(regex1)) {
-            throw new GuliException(20001, "用户名不得小于5个或大于10个字符!");
+        if (!userDto.getUsername().matches(regex1)) {
+            return R.error().message("用户名不得小于5个或大于10个字符");
         }
-        if (!userVo.getNickName().matches(regex2)) {
-            throw new GuliException(20001, "昵称不得小于2个或大于8个字符!");
+        int length = userDto.getNickName().length();
+        if (length < 2 || length > 8) {
+            return R.error().message("昵称不得小于2个或大于8个字符");
         }
+        if (!userDto.getPass().matches("\\w{6,16}")) {
+            return R.error().message("密码不能小于6个或大于16个字符");
+        }
+        if (!userDto.getPass().equals(userDto.getCheckPass())) {
+            return R.error().message("两次输入密码不一致");
+        }
+
+        // 属性值拷贝
+        User user = new User();
+        BeanUtils.copyProperties(userDto, user);
+        // 密码进行MD5加密
+        user.setPassword(MD5.encrypt(userDto.getPass()));
+
+        // 判断用户名是否存在
+        User one = userService.selectByUsername(user.getUsername());
+        if (one != null) {
+            return R.error().message("该用户名已存在");
+        }
+
+        boolean flag = userService.save(user);
+        if (!flag) {
+            return R.error().message("添加失败");
+        }
+        return R.ok().message("添加成功");
     }
 
-    @ApiOperation(value = "删除管理用户")
-    @DeleteMapping("remove/{id}")
+    @ApiOperation(value = "修改")
+    @PutMapping("/users")
+    public R updateById(@RequestBody UserDto userDto) {
+
+        // 将从前端获取到的用户加密信息进行解密
+        userDto.setUsername(RSAUtils.decryptBase64(userDto.getUsername()));
+
+        // 后端校验
+        String regex1 = "[A-Za-z0-9]{5,10}";
+        if (!userDto.getUsername().matches(regex1)) {
+            return R.error().message("用户名不得小于5个或大于10个字符");
+        }
+        int length = userDto.getNickName().length();
+        if (length < 2 || length > 8) {
+            return R.error().message("昵称不得小于2个或大于8个字符");
+        }
+
+        User user = new User();
+        BeanUtils.copyProperties(userDto, user);
+
+        // 判断用户名是否存在
+        User user1 = userService.getById(user.getId());
+        User user2 = userService.selectByUsername(user.getUsername());
+        if (user2 != null && !user1.getUsername().equals(user2.getUsername())) {
+            return R.error().message("该用户名已存在");
+        }
+
+        boolean flag = userService.updateById(user);
+        if (!flag) {
+            return R.error().message("修改失败");
+        }
+
+        return R.ok().message("修改成功");
+    }
+
+    @ApiOperation(value = "删除")
+    @DeleteMapping("/users/{id}")
     public R remove(@PathVariable String id) {
-        userService.removeById(id);
-        return R.ok();
+        boolean flag = userService.removeById(id);
+        if (!flag) {
+            return R.error().message("删除失败");
+        }
+        return R.ok().message("删除成功");
     }
 
-    @ApiOperation(value = "根据id列表删除管理用户")
-    @DeleteMapping("batchRemove")
+    @ApiOperation(value = "根据id列表批量删除")
+    @DeleteMapping("users/batchRemove")
     public R batchRemove(@RequestBody List<String> idList) {
-        userService.removeByIds(idList);
-        return R.ok();
+        boolean flag = userService.removeByIds(idList);
+        if (!flag) {
+            return R.error().message("批量删除失败");
+        }
+        return R.ok().message("批量删除成功");
     }
 
-    @ApiOperation(value = "根据用户获取角色数据")
+    @ApiOperation(value = "根据用户id获取角色数据")
     @GetMapping("/toAssign/{userId}")
     public R toAssign(@PathVariable String userId) {
         Map<String, Object> roleMap = roleService.findRoleByUserId(userId);

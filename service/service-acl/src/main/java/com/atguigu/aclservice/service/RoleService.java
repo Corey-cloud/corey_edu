@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public interface RoleService extends IService<Role> {
 
-    //根据用户获取角色数据
+    //根据用户id获取角色数据
     Map<String, Object> findRoleByUserId(String userId);
 
     //根据用户分配角色

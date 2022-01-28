@@ -5,6 +5,7 @@ import com.atguigu.aclservice.model.entity.UserRole;
 import com.atguigu.aclservice.mapper.RoleMapper;
 import com.atguigu.aclservice.service.RoleService;
 import com.atguigu.aclservice.service.UserRoleService;
+import com.atguigu.servicebase.exceptionhandler.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         List<String> existRoleList = existUserRoleList.stream().map(c->c.getRoleId()).collect(Collectors.toList());
 
         //对角色进行分类
-        List<Role> assignRoles = new ArrayList<Role>();
+        List<Role> assignRoles = new ArrayList<>();
         for (Role role : allRolesList) {
             //已分配
             if(existRoleList.contains(role.getId())) {
@@ -72,7 +73,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
             userRoleList.add(userRole);
         }
-        userRoleService.saveBatch(userRoleList);
+        boolean saveBatch = userRoleService.saveBatch(userRoleList);
+        if (!saveBatch) {
+            throw new GuliException(20001, "用户分配角色失败");
+        }
     }
 
     @Override

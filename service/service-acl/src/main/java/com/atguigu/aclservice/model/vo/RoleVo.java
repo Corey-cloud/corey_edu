@@ -1,29 +1,20 @@
-package com.atguigu.aclservice.model.entity;
+package com.atguigu.aclservice.model.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
-
-import java.util.Date;
-import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+
+import java.util.Date;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author testjava
- * @since 2020-01-12
- */
+ * Created by corey on 2022/1/28
+ **/
+
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("acl_role")
-@ApiModel(value="Role对象", description="")
-public class Role implements Serializable {
+public class RoleVo {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,9 +30,6 @@ public class Role implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
-
-    @ApiModelProperty(value = "逻辑删除 1（true）已删除， 0（false）未删除")
-    private Boolean isDeleted;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)

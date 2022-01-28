@@ -81,7 +81,7 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/api/**",
-                "/**/getPublicKey",
+                "/**/publicKey",
                 "/swagger-resources/**",
                 "/webjars/**",
                 "/v2/**",
