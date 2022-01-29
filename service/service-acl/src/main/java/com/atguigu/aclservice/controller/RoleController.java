@@ -1,8 +1,10 @@
 package com.atguigu.aclservice.controller;
 
 
+import com.atguigu.aclservice.model.entity.Permission;
 import com.atguigu.aclservice.model.entity.Role;
 import com.atguigu.aclservice.model.vo.RoleVo;
+import com.atguigu.aclservice.service.PermissionService;
 import com.atguigu.aclservice.service.RoleService;
 import com.atguigu.commonutils.R;
 import com.atguigu.servicebase.exceptionhandler.GuliException;
@@ -33,6 +35,9 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private PermissionService permissionService;
 
     @ApiOperation(value = "获取角色分页列表")
     @GetMapping("/roles")
@@ -155,6 +160,23 @@ public class RoleController {
             return R.error().message("批量删除失败");
         }
         return R.ok().message("批量删除成功");
+    }
+
+    @ApiOperation(value = "根据角色id获取菜单")
+    @GetMapping("roles/getAssign/{roleId}")
+    public R toAssign(@PathVariable String roleId) {
+        List<Permission> list = permissionService.selectAllMenu(roleId);
+        return R.ok().data("permissionList", list);
+    }
+
+    @ApiOperation(value = "给角色分配权限")
+    @PostMapping("roles/doAssign")
+    public R doAssign(String roleId,String[] permissionId) {
+        boolean flag = permissionService.saveRolePermissionRealtionShip(roleId, permissionId);
+        if (!flag) {
+            return R.error().message("保存失败");
+        }
+        return R.ok();
     }
 }
 

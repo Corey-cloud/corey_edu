@@ -61,7 +61,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     //根据用户分配角色
     @Override
-    public void saveUserRoleRealtionShip(String userId, String[] roleIds) {
+    public boolean saveUserRoleRealtionShip(String userId, String[] roleIds) {
         userRoleService.remove(new QueryWrapper<UserRole>().eq("user_id", userId));
 
         List<UserRole> userRoleList = new ArrayList<>();
@@ -70,13 +70,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             UserRole userRole = new UserRole();
             userRole.setUserId(userId);
             userRole.setRoleId(roleId);
-
             userRoleList.add(userRole);
         }
         boolean saveBatch = userRoleService.saveBatch(userRoleList);
         if (!saveBatch) {
-            throw new GuliException(20001, "用户分配角色失败");
+            return false;
         }
+        return true;
     }
 
     @Override

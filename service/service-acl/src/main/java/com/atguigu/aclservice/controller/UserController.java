@@ -211,7 +211,10 @@ public class UserController {
     @ApiOperation(value = "根据用户分配角色")
     @PostMapping("users/doAssign")
     public R doAssign(@RequestParam String userId, @RequestParam String[] roleId) {
-        roleService.saveUserRoleRealtionShip(userId, roleId);
+        boolean flag = roleService.saveUserRoleRealtionShip(userId, roleId);
+        if (!flag) {
+            return R.error().message("保存失败");
+        }
         return R.ok();
     }
 }

@@ -20,7 +20,7 @@ public interface RoleService extends IService<Role> {
     Map<String, Object> findRoleByUserId(String userId);
 
     //根据用户分配角色
-    void saveUserRoleRealtionShip(String userId, String[] roleId);
+    boolean saveUserRoleRealtionShip(String userId, String[] roleId);
 
     List<Role> selectRoleByUserId(String id);
 }

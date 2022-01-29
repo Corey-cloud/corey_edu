@@ -29,44 +29,35 @@ public class PermissionController {
     @ApiOperation(value = "查询所有菜单")
     @GetMapping("/permissions")
     public R indexAllPermission() {
-        List<Permission> permissionsList =  permissionService.queryAllMenu();
-        return R.ok().data("permissionsList",permissionsList.get(0).getChildren());
+        List<Permission> permissionsList = permissionService.queryAllMenu();
+        return R.ok().data("permissionsList", permissionsList);
     }
 
     @ApiOperation(value = "新增菜单")
     @PostMapping("/permissions")
     public R save(@RequestBody Permission permission) {
-        permissionService.save(permission);
+        boolean flag = permissionService.save(permission);
+        if (!flag) {
+            return R.error().message("添加失败");
+        }
         return R.ok();
     }
 
     @ApiOperation(value = "修改菜单")
     @PutMapping("/permissions")
     public R updateById(@RequestBody Permission permission) {
-        permissionService.updateById(permission);
+        boolean flag = permissionService.updateById(permission);
+        if (!flag) {
+            return R.error().message("修改失败");
+        }
         return R.ok();
     }
 
     @ApiOperation(value = "递归删除菜单")
     @DeleteMapping("/permissions/{id}")
     public R remove(@PathVariable String id) {
-        permissionService.removeChildByIdGuli(id);
+        permissionService.removeChildById(id);
         return R.ok();
     }
-
-    @ApiOperation(value = "给角色分配权限")
-    @PostMapping("/doAssign")
-    public R doAssign(String roleId,String[] permissionId) {
-        permissionService.saveRolePermissionRealtionShipGuli(roleId,permissionId);
-        return R.ok();
-    }
-
-    @ApiOperation(value = "根据角色获取菜单")
-    @GetMapping("toAssign/{roleId}")
-    public R toAssign(@PathVariable String roleId) {
-        List<Permission> list = permissionService.selectAllMenu(roleId);
-        return R.ok().data("children", list);
-    }
-
 }
 
