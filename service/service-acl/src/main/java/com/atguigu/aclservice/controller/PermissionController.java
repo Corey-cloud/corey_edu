@@ -19,8 +19,7 @@ import java.util.List;
  * @since 2020-01-12
  */
 @RestController
-@RequestMapping("/admin/acl/permission")
-//@CrossOrigin
+@RequestMapping("/admin/acl")
 public class PermissionController {
 
     @Autowired
@@ -28,14 +27,28 @@ public class PermissionController {
 
     //获取全部菜单
     @ApiOperation(value = "查询所有菜单")
-    @GetMapping
+    @GetMapping("/permissions")
     public R indexAllPermission() {
-        List<Permission> list =  permissionService.queryAllMenuGuli();
-        return R.ok().data("children",list);
+        List<Permission> permissionsList =  permissionService.queryAllMenu();
+        return R.ok().data("permissionsList",permissionsList.get(0).getChildren());
+    }
+
+    @ApiOperation(value = "新增菜单")
+    @PostMapping("/permissions")
+    public R save(@RequestBody Permission permission) {
+        permissionService.save(permission);
+        return R.ok();
+    }
+
+    @ApiOperation(value = "修改菜单")
+    @PutMapping("/permissions")
+    public R updateById(@RequestBody Permission permission) {
+        permissionService.updateById(permission);
+        return R.ok();
     }
 
     @ApiOperation(value = "递归删除菜单")
-    @DeleteMapping("remove/{id}")
+    @DeleteMapping("/permissions/{id}")
     public R remove(@PathVariable String id) {
         permissionService.removeChildByIdGuli(id);
         return R.ok();
@@ -53,22 +66,6 @@ public class PermissionController {
     public R toAssign(@PathVariable String roleId) {
         List<Permission> list = permissionService.selectAllMenu(roleId);
         return R.ok().data("children", list);
-    }
-
-
-
-    @ApiOperation(value = "新增菜单")
-    @PostMapping("save")
-    public R save(@RequestBody Permission permission) {
-        permissionService.save(permission);
-        return R.ok();
-    }
-
-    @ApiOperation(value = "修改菜单")
-    @PutMapping("update")
-    public R updateById(@RequestBody Permission permission) {
-        permissionService.updateById(permission);
-        return R.ok();
     }
 
 }

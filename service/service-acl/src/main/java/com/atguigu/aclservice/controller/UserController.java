@@ -35,7 +35,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/admin/acl")
-//@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -203,14 +202,14 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据用户id获取角色数据")
-    @GetMapping("/toAssign/{userId}")
+    @GetMapping("users/toAssign/{userId}")
     public R toAssign(@PathVariable String userId) {
         Map<String, Object> roleMap = roleService.findRoleByUserId(userId);
         return R.ok().data(roleMap);
     }
 
     @ApiOperation(value = "根据用户分配角色")
-    @PostMapping("/doAssign")
+    @PostMapping("users/doAssign")
     public R doAssign(@RequestParam String userId, @RequestParam String[] roleId) {
         roleService.saveUserRoleRealtionShip(userId, roleId);
         return R.ok();

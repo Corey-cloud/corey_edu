@@ -35,18 +35,60 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     
     @Autowired
     private UserService userService;
-    
-    //获取全部菜单
+
+    // 获取全部菜单
     @Override
     public List<Permission> queryAllMenu() {
 
-        QueryWrapper<Permission> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("id");
-        List<Permission> permissionList = baseMapper.selectList(wrapper);
+        //1 根据id降序查询菜单表所有数据
+        List<Permission> permissionList = baseMapper.selectList(new QueryWrapper<Permission>().orderByDesc("id"));
 
-        List<Permission> result = bulid(permissionList);
+        //2 把获取的所有菜单list集合按照要求进行封装
+        List<Permission> resultList = bulidPermission(permissionList);
 
-        return result;
+        return resultList;
+    }
+
+    //把返回所有菜单list集合进行封装的方法
+    public static List<Permission> bulidPermission(List<Permission> permissionList) {
+
+        //创建list集合，用于数据最终封装
+        List<Permission> finalNode = new ArrayList<>();
+        //把所有菜单list集合遍历，得到顶层菜单 pid=0菜单，设置level是1
+        for(Permission permissionNode : permissionList) {
+            //得到顶层菜单 pid=0菜单
+            if("0".equals(permissionNode.getPid())) {
+                //设置顶层菜单的level是1
+                permissionNode.setLevel(1);
+                //根据顶层菜单，向里面进行查询子菜单，封装到finalNode里面
+                finalNode.add(selectChildren(permissionNode,permissionList));
+            }
+        }
+        return finalNode;
+    }
+
+
+     // 递归获取子菜单并封装
+    private static Permission selectChildren(Permission permissionNode, List<Permission> permissionList) {
+        //1 因为向一层菜单里面放二层菜单，二层里面还要放三层，把对象初始化
+        permissionNode.setChildren(new ArrayList<>());
+
+        //2 遍历所有菜单list集合，进行判断比较，比较id和pid值是否相同
+        for(Permission item : permissionList) {
+            //判断 id和pid值是否相同
+            if(permissionNode.getId().equals(item.getPid())) {
+                //把父菜单的level值+1
+                int level = permissionNode.getLevel()+1;
+                item.setLevel(level);
+                //如果children为空，进行初始化操作
+                if(permissionNode.getChildren() == null) {
+                    permissionNode.setChildren(new ArrayList<>());
+                }
+                //把查询出来的子菜单放到父菜单里面
+                permissionNode.getChildren().add(selectChildren(item, permissionList));
+            }
+        }
+        return permissionNode;
     }
 
     //根据角色获取菜单
@@ -76,29 +118,10 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         }
 
 
-        List<Permission> permissionList = bulid(allPermissionList);
+        List<Permission> permissionList = bulidPermission(allPermissionList);
         return permissionList;
     }
 
-    //给角色分配权限
-    @Override
-    public void saveRolePermissionRealtionShip(String roleId, String[] permissionIds) {
-
-        rolePermissionService.remove(new QueryWrapper<RolePermission>().eq("role_id", roleId));
-
-  
-
-        List<RolePermission> rolePermissionList = new ArrayList<>();
-        for(String permissionId : permissionIds) {
-            if(StringUtils.isEmpty(permissionId)) continue;
-      
-            RolePermission rolePermission = new RolePermission();
-            rolePermission.setRoleId(roleId);
-            rolePermission.setPermissionId(permissionId);
-            rolePermissionList.add(rolePermission);
-        }
-        rolePermissionService.saveBatch(rolePermissionList);
-    }
 
     //递归删除菜单
     @Override
@@ -164,97 +187,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
             idList.add(item.getId());
             this.selectChildListById(item.getId(), idList);
         });
-    }
-
-    /**
-     * 使用递归方法建菜单
-     * @param treeNodes
-     * @return
-     */
-    private static List<Permission> bulid(List<Permission> treeNodes) {
-        List<Permission> trees = new ArrayList<>();
-        for (Permission treeNode : treeNodes) {
-            if ("0".equals(treeNode.getPid())) {
-                treeNode.setLevel(1);
-                trees.add(findChildren(treeNode,treeNodes));
-            }
-        }
-        return trees;
-    }
-
-    /**
-     * 递归查找子节点
-     * @param treeNodes
-     * @return
-     */
-    private static Permission findChildren(Permission treeNode,List<Permission> treeNodes) {
-        treeNode.setChildren(new ArrayList<Permission>());
-
-        for (Permission it : treeNodes) {
-            if(treeNode.getId().equals(it.getPid())) {
-                int level = treeNode.getLevel() + 1;
-                it.setLevel(level);
-                if (treeNode.getChildren() == null) {
-                    treeNode.setChildren(new ArrayList<>());
-                }
-                treeNode.getChildren().add(findChildren(it,treeNodes));
-            }
-        }
-        return treeNode;
-    }
-
-
-    //========================递归查询所有菜单================================================
-    //获取全部菜单
-    @Override
-    public List<Permission> queryAllMenuGuli() {
-        //1 查询菜单表所有数据
-        QueryWrapper<Permission> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("id");
-        List<Permission> permissionList = baseMapper.selectList(wrapper);
-        //2 把查询所有菜单list集合按照要求进行封装
-        List<Permission> resultList = bulidPermission(permissionList);
-        return resultList;
-    }
-
-    //把返回所有菜单list集合进行封装的方法
-    public static List<Permission> bulidPermission(List<Permission> permissionList) {
-
-        //创建list集合，用于数据最终封装
-        List<Permission> finalNode = new ArrayList<>();
-        //把所有菜单list集合遍历，得到顶层菜单 pid=0菜单，设置level是1
-        for(Permission permissionNode : permissionList) {
-            //得到顶层菜单 pid=0菜单
-            if("0".equals(permissionNode.getPid())) {
-                //设置顶层菜单的level是1
-                permissionNode.setLevel(1);
-                //根据顶层菜单，向里面进行查询子菜单，封装到finalNode里面
-                finalNode.add(selectChildren(permissionNode,permissionList));
-            }
-        }
-        return finalNode;
-    }
-
-    private static Permission selectChildren(Permission permissionNode, List<Permission> permissionList) {
-        //1 因为向一层菜单里面放二层菜单，二层里面还要放三层，把对象初始化
-        permissionNode.setChildren(new ArrayList<Permission>());
-
-        //2 遍历所有菜单list集合，进行判断比较，比较id和pid值是否相同
-        for(Permission it : permissionList) {
-            //判断 id和pid值是否相同
-            if(permissionNode.getId().equals(it.getPid())) {
-                //把父菜单的level值+1
-                int level = permissionNode.getLevel()+1;
-                it.setLevel(level);
-                //如果children为空，进行初始化操作
-                if(permissionNode.getChildren() == null) {
-                    permissionNode.setChildren(new ArrayList<Permission>());
-                }
-                //把查询出来的子菜单放到父菜单里面
-                permissionNode.getChildren().add(selectChildren(it,permissionList));
-            }
-        }
-        return permissionNode;
     }
 
     //============递归删除菜单==================================
