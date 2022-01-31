@@ -1,7 +1,7 @@
 package com.atguigu.eduservice.service.impl;
 
-import com.atguigu.eduservice.entity.EduTeacher;
-import com.atguigu.eduservice.entity.vo.TeacherQuery;
+import com.atguigu.eduservice.model.entity.EduTeacher;
+import com.atguigu.eduservice.model.vo.TeacherQueryVo;
 import com.atguigu.eduservice.mapper.EduTeacherMapper;
 import com.atguigu.eduservice.service.EduTeacherService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -24,34 +24,6 @@ import java.util.Map;
  */
 @Service
 public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeacher> implements EduTeacherService {
-
-    @Override
-    public void pageQuery(Page<EduTeacher> pageParam, TeacherQuery teacherQuery) {
-        QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
-        // 排序
-        queryWrapper.orderByAsc("gmt_create");
-        if (teacherQuery == null){
-            baseMapper.selectPage(pageParam, queryWrapper);
-            return;
-        }
-        String name = teacherQuery.getName();
-        Integer level = teacherQuery.getLevel();
-        String begin = teacherQuery.getBegin();
-        String end = teacherQuery.getEnd();
-        if (!"".equals(name) && !StringUtils.isEmpty(name)) {
-            queryWrapper.like("name", name);
-        }
-        if (!"".equals(level) && level != null) {
-            queryWrapper.eq("level", level);
-        }
-        if (!StringUtils.isEmpty(begin)) {
-            queryWrapper.ge("gmt_create", begin);
-        }
-        if (!StringUtils.isEmpty(end)) {
-            queryWrapper.le("gmt_create", end);
-        }
-        baseMapper.selectPage(pageParam, queryWrapper);
-    }
 
     @Override
     public Map<String, Object> pageListWeb(Page<EduTeacher> pageParam) {

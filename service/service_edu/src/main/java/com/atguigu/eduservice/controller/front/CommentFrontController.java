@@ -4,7 +4,7 @@ import com.atguigu.commonutils.JwtUtils;
 import com.atguigu.commonutils.R;
 import com.atguigu.commonutils.vo.UcenterMemberVo;
 import com.atguigu.eduservice.client.UcenterClient;
-import com.atguigu.eduservice.entity.EduComment;
+import com.atguigu.eduservice.model.entity.EduComment;
 import com.atguigu.eduservice.service.EduCommentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;

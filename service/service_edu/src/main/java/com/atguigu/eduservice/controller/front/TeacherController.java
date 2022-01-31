@@ -1,8 +1,8 @@
 package com.atguigu.eduservice.controller.front;
 
 import com.atguigu.commonutils.R;
-import com.atguigu.eduservice.entity.EduCourse;
-import com.atguigu.eduservice.entity.EduTeacher;
+import com.atguigu.eduservice.model.entity.EduCourse;
+import com.atguigu.eduservice.model.entity.EduTeacher;
 import com.atguigu.eduservice.service.EduCourseService;
 import com.atguigu.eduservice.service.EduTeacherService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

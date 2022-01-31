@@ -1,6 +1,6 @@
 package com.atguigu.eduservice.service.impl;
 
-import com.atguigu.eduservice.entity.EduComment;
+import com.atguigu.eduservice.model.entity.EduComment;
 import com.atguigu.eduservice.mapper.EduCommentMapper;
 import com.atguigu.eduservice.service.EduCommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

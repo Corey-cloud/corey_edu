@@ -2,8 +2,8 @@ package com.atguigu.eduservice.listener;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.atguigu.eduservice.entity.EduSubject;
-import com.atguigu.eduservice.entity.excel.ExcelSubjectData;
+import com.atguigu.eduservice.model.entity.EduSubject;
+import com.atguigu.eduservice.model.excel.ExcelSubjectData;
 import com.atguigu.eduservice.service.EduSubjectService;
 import com.atguigu.servicebase.exceptionhandler.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

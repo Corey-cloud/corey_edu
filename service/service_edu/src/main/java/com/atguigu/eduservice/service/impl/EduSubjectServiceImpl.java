@@ -1,10 +1,10 @@
 package com.atguigu.eduservice.service.impl;
 
 import com.alibaba.excel.EasyExcel;
-import com.atguigu.eduservice.entity.EduSubject;
-import com.atguigu.eduservice.entity.excel.ExcelSubjectData;
-import com.atguigu.eduservice.entity.vo.SubjectNestedVo;
-import com.atguigu.eduservice.entity.vo.SubjectVo;
+import com.atguigu.eduservice.model.entity.EduSubject;
+import com.atguigu.eduservice.model.excel.ExcelSubjectData;
+import com.atguigu.eduservice.model.vo.SubjectNestedVo;
+import com.atguigu.eduservice.model.vo.SubjectVo;
 import com.atguigu.eduservice.listener.SubjectExcelListener;
 import com.atguigu.eduservice.mapper.EduSubjectMapper;
 import com.atguigu.eduservice.service.EduSubjectService;

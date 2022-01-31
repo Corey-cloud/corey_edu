@@ -130,6 +130,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         for (int i = 0; i < allPermissionList.size(); i++) {
             Permission permission = allPermissionList.get(i);
             for (int m = 0; m < rolePermissionList.size(); m++) {
+                if (permission.isSelect()) break;
                 RolePermission rolePermission = rolePermissionList.get(m);
                 if(rolePermission.getPermissionId().equals(permission.getId())) {
                     permission.setSelect(true);

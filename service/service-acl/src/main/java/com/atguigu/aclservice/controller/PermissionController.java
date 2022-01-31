@@ -19,7 +19,7 @@ import java.util.List;
  * @since 2020-01-12
  */
 @RestController
-@RequestMapping("/admin/acl")
+@RequestMapping("/admin/acl/permissions")
 public class PermissionController {
 
     @Autowired
@@ -27,14 +27,14 @@ public class PermissionController {
 
     //获取全部菜单
     @ApiOperation(value = "查询所有菜单")
-    @GetMapping("/permissions")
-    public R indexAllPermission() {
+    @GetMapping
+    public R getAllPermission() {
         List<Permission> permissionsList = permissionService.queryAllMenu();
         return R.ok().data("permissionsList", permissionsList);
     }
 
     @ApiOperation(value = "新增菜单")
-    @PostMapping("/permissions")
+    @PostMapping
     public R save(@RequestBody Permission permission) {
         boolean flag = permissionService.save(permission);
         if (!flag) {
@@ -44,7 +44,7 @@ public class PermissionController {
     }
 
     @ApiOperation(value = "修改菜单")
-    @PutMapping("/permissions")
+    @PutMapping
     public R updateById(@RequestBody Permission permission) {
         boolean flag = permissionService.updateById(permission);
         if (!flag) {
@@ -54,8 +54,8 @@ public class PermissionController {
     }
 
     @ApiOperation(value = "递归删除菜单")
-    @DeleteMapping("/permissions/{id}")
-    public R remove(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public R removeById(@PathVariable String id) {
         permissionService.removeChildById(id);
         return R.ok();
     }

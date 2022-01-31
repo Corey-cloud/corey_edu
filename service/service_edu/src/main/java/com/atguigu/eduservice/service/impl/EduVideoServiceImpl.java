@@ -1,8 +1,8 @@
 package com.atguigu.eduservice.service.impl;
 
 import com.atguigu.eduservice.client.VodClient;
-import com.atguigu.eduservice.entity.EduVideo;
-import com.atguigu.eduservice.entity.vo.VideoInfoVo;
+import com.atguigu.eduservice.model.entity.EduVideo;
+import com.atguigu.eduservice.model.vo.VideoInfoVo;
 import com.atguigu.eduservice.mapper.EduVideoMapper;
 import com.atguigu.eduservice.service.EduVideoService;
 import com.atguigu.servicebase.exceptionhandler.GuliException;

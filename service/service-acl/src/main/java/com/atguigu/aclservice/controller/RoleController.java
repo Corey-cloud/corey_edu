@@ -29,7 +29,7 @@ import java.util.List;
  * @since 2020-01-12
  */
 @RestController
-@RequestMapping("/admin/acl")
+@RequestMapping("/admin/acl/roles")
 //@CrossOrigin
 public class RoleController {
 
@@ -40,7 +40,7 @@ public class RoleController {
     private PermissionService permissionService;
 
     @ApiOperation(value = "获取角色分页列表")
-    @GetMapping("/roles")
+    @GetMapping
     public R index(
             @ApiParam(name = "page", value = "当前页", required = true)
             @RequestParam Integer page,
@@ -71,8 +71,8 @@ public class RoleController {
     }
 
     @ApiOperation(value = "根据id获取")
-    @GetMapping("/roles/{id}")
-    public R get(@PathVariable String id) {
+    @GetMapping("/{id}")
+    public R getById(@PathVariable String id) {
         Role role = roleService.getById(id);
         RoleVo roleVo = new RoleVo();
         BeanUtils.copyProperties(role, roleVo);
@@ -80,7 +80,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "新增")
-    @PostMapping("/roles")
+    @PostMapping
     public R save(@RequestBody Role role) {
 
         // 数据规则校验
@@ -108,7 +108,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "修改")
-    @PutMapping("/roles")
+    @PutMapping
     public R updateById(@RequestBody Role role) {
 
         // 规则校验
@@ -143,8 +143,8 @@ public class RoleController {
     }
 
     @ApiOperation(value = "删除")
-    @DeleteMapping("/roles/{id}")
-    public R remove(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public R removeById(@PathVariable String id) {
         boolean flag = roleService.removeById(id);
         if (!flag) {
             return R.error().message("删除失败");
@@ -153,7 +153,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "根据id列表删除角色")
-    @DeleteMapping("/roles/batchRemove")
+    @DeleteMapping("/batchRemove")
     public R batchRemove(@RequestBody List<String> idList) {
         boolean flag = roleService.removeByIds(idList);
         if (!flag) {
@@ -163,14 +163,14 @@ public class RoleController {
     }
 
     @ApiOperation(value = "根据角色id获取菜单")
-    @GetMapping("roles/getAssign/{roleId}")
-    public R toAssign(@PathVariable String roleId) {
+    @GetMapping("/getAssign/{roleId}")
+    public R getAssign(@PathVariable String roleId) {
         List<Permission> list = permissionService.selectAllMenu(roleId);
         return R.ok().data("permissionList", list);
     }
 
     @ApiOperation(value = "给角色分配权限")
-    @PostMapping("roles/doAssign")
+    @PostMapping("/doAssign")
     public R doAssign(String roleId,String[] permissionId) {
         boolean flag = permissionService.saveRolePermissionRealtionShip(roleId, permissionId);
         if (!flag) {

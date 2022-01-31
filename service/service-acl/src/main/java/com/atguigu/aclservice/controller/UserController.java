@@ -30,11 +30,11 @@ import java.util.Map;
  * 用户表 前端控制器
  * </p>
  *
- * @author testjava
+ * @author corey
  * @since 2020-01-12
  */
 @RestController
-@RequestMapping("/admin/acl")
+@RequestMapping("/admin/acl/users")
 public class UserController {
 
     @Autowired
@@ -43,18 +43,9 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
-    @ApiOperation(value = "获取公钥")
-    @GetMapping("/publicKey")
-    public R getKey() {
-        System.out.println("------获取公钥------");
-        String publicKey = RSAUtils.generateBase64PublicKey();
-        System.out.println(publicKey);
-        return R.ok().data("publicKey", publicKey);
-    }
-
     @ApiOperation(value = "获取用户分页列表")
-    @GetMapping("/users")
-    public R index(
+    @GetMapping
+    public R list(
             @ApiParam(name = "page", value = "当前页", required = true)
             @RequestParam Integer page,
 
@@ -94,7 +85,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据id获取")
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public R getById(@PathVariable String id) {
         User user = userService.getById(id);
         UserVo userVo = new UserVo();
@@ -103,7 +94,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "新增")
-    @PostMapping("/users")
+    @PostMapping
     public R save(@RequestBody UserDto userDto) {
 
         // 信息解密
@@ -147,7 +138,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改")
-    @PutMapping("/users")
+    @PutMapping
     public R updateById(@RequestBody UserDto userDto) {
 
         // 将从前端获取到的用户加密信息进行解密
@@ -182,8 +173,8 @@ public class UserController {
     }
 
     @ApiOperation(value = "删除")
-    @DeleteMapping("/users/{id}")
-    public R remove(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public R removeById(@PathVariable String id) {
         boolean flag = userService.removeById(id);
         if (!flag) {
             return R.error().message("删除失败");
@@ -192,7 +183,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据id列表批量删除")
-    @DeleteMapping("users/batchRemove")
+    @DeleteMapping("/batchRemove")
     public R batchRemove(@RequestBody List<String> idList) {
         boolean flag = userService.removeByIds(idList);
         if (!flag) {
@@ -202,14 +193,14 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据用户id获取角色数据")
-    @GetMapping("users/toAssign/{userId}")
+    @GetMapping("/toAssign/{userId}")
     public R toAssign(@PathVariable String userId) {
         Map<String, Object> roleMap = roleService.findRoleByUserId(userId);
         return R.ok().data(roleMap);
     }
 
     @ApiOperation(value = "根据用户分配角色")
-    @PostMapping("users/doAssign")
+    @PostMapping("/doAssign")
     public R doAssign(@RequestParam String userId, @RequestParam String[] roleId) {
         boolean flag = roleService.saveUserRoleRealtionShip(userId, roleId);
         if (!flag) {

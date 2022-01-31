@@ -1,11 +1,11 @@
 package com.atguigu.eduservice.service;
 
-import com.atguigu.eduservice.entity.EduCourse;
-import com.atguigu.eduservice.entity.frontvo.CourseQueryVo;
-import com.atguigu.eduservice.entity.frontvo.CourseWebVo;
-import com.atguigu.eduservice.entity.vo.CourseInfoVo;
-import com.atguigu.eduservice.entity.vo.CoursePublishVo;
-import com.atguigu.eduservice.entity.vo.CourseQuery;
+import com.atguigu.eduservice.model.entity.EduCourse;
+import com.atguigu.eduservice.model.frontvo.CourseQueryVo;
+import com.atguigu.eduservice.model.frontvo.CourseWebVo;
+import com.atguigu.eduservice.model.vo.CourseInfoVo;
+import com.atguigu.eduservice.model.vo.CoursePublishVo;
+import com.atguigu.eduservice.model.vo.CourseQuery;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
