@@ -15,6 +15,8 @@ import java.util.List;
  * @since 2021-07-23
  */
 public interface EduChapterService extends IService<EduChapter> {
+
+    // 根据课程id获取嵌套章节列表
     List<ChapterVo> nestedList(String courseId);
 
     boolean removeChapterById(String id);

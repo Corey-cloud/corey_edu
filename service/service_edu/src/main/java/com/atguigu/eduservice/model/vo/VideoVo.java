@@ -21,5 +21,5 @@ public class VideoVo implements Serializable {
     private String videoOriginalName;
     @ApiModelProperty(value = "视频资源")
     private String videoSourceId;
-    private Boolean free;
+    private int isFree;
 }

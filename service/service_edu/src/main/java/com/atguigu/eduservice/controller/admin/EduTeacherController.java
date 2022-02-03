@@ -5,6 +5,7 @@ import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.model.entity.EduTeacher;
 import com.atguigu.eduservice.model.vo.EduTeacherVo;
 import com.atguigu.eduservice.model.vo.TeacherQueryVo;
+import com.atguigu.eduservice.model.vo.TeacherVo;
 import com.atguigu.eduservice.service.EduTeacherService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -15,6 +16,10 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -122,6 +127,23 @@ public class EduTeacherController {
         EduTeacherVo eduTeacherVo = new EduTeacherVo();
         BeanUtils.copyProperties(eduTeacher, eduTeacherVo);
         return R.ok().data("item", eduTeacherVo);
+    }
+
+    // 获取全部讲师列表
+    @ApiOperation(value = "获取全部讲师列表")
+    @GetMapping("/all")
+    public R getAll() {
+        QueryWrapper<EduTeacher> wrapper = new QueryWrapper<>();
+        wrapper.orderByAsc("gmt_create");
+        wrapper.select("id", "name");
+        List<EduTeacher> teacherList = eduTeacherService.list(wrapper);
+        ArrayList<TeacherVo> teacherVoList = new ArrayList<>();
+        for (EduTeacher teacher : teacherList) {
+            TeacherVo teacherVo = new TeacherVo();
+            BeanUtils.copyProperties(teacher, teacherVo);
+            teacherVoList.add(teacherVo);
+        }
+        return R.ok().data("teacherList", teacherVoList);
     }
 }
 

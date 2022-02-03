@@ -18,8 +18,8 @@ public class CourseQuery implements Serializable {
     private String title;
     @ApiModelProperty(value = "讲师id")
     private String teacherId;
-    @ApiModelProperty(value = "一级类别id")
+    @ApiModelProperty(value = "一级分类id")
     private String subjectParentId;
-    @ApiModelProperty(value = "二级类别id")
+    @ApiModelProperty(value = "二级分类id")
     private String subjectId;
 }

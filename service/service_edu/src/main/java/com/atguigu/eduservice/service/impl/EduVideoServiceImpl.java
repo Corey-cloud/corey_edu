@@ -39,16 +39,6 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
     }
 
     @Override
-    public void saveVideoInfo(VideoInfoVo videoInfoForm) {
-        EduVideo video = new EduVideo();
-        BeanUtils.copyProperties(videoInfoForm, video);
-        boolean result = this.save(video);
-        if(!result){
-            throw new GuliException(20001, "课时信息保存失败");
-        }
-    }
-
-    @Override
     public VideoInfoVo getVideoInfoFormById(String id) {
         //从video表中取数据
         EduVideo video = this.getById(id);
@@ -59,17 +49,6 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
         VideoInfoVo videoInfoForm = new VideoInfoVo();
         BeanUtils.copyProperties(video, videoInfoForm);
         return videoInfoForm;
-    }
-
-    @Override
-    public void updateVideoInfoById(VideoInfoVo videoInfoForm) {
-        //保存课时基本信息
-        EduVideo video = new EduVideo();
-        BeanUtils.copyProperties(videoInfoForm, video);
-        boolean result = this.updateById(video);
-        if(!result){
-            throw new GuliException(20001, "课时信息保存失败");
-        }
     }
 
     @Override

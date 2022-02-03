@@ -13,12 +13,12 @@ import java.util.List;
  * Created by corey on 2021/7/26
  **/
 @Component
-@FeignClient(name = "service-vod", fallback = VodFileDegradeFeignClient.class)
+@FeignClient(name = "service-aliyun", fallback = VodFileDegradeFeignClient.class)
 public interface VodClient {
 
-    @DeleteMapping("/eduvod/video/{videoId}")
-    public R removeVideo(@PathVariable("videoId") String videoId);
+    @DeleteMapping("/aliyun/vod/videos/{videoId}")
+    R removeVideo(@PathVariable("videoId") String videoId);
 
-    @DeleteMapping("/eduvod/video/delete-batch")
-    public R removeVideoList(@RequestParam("videoIdList") List<String> videoIdList);
+    @DeleteMapping("/aliyun/vod/videos/delete-batch")
+    R removeVideoList(@RequestParam("videoIdList") List<String> videoIdList);
 }

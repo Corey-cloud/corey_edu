@@ -28,11 +28,29 @@ import java.util.List;
 @Api(description="课程管理")
 //@CrossOrigin //跨域
 @RestController
-@RequestMapping("/edu/courses")
+@RequestMapping("/edu/admin/courses")
 public class EduCourseController {
 
     @Autowired
     private EduCourseService courseService;
+
+    @ApiOperation(value = "获取分页课程列表")
+    @GetMapping
+    public R pageList(
+            @ApiParam(name = "page", value = "当前页码", required = true)
+            @RequestParam Long page,
+            @ApiParam(name = "limit", value = "每页记录数", required = true)
+            @RequestParam Long limit,
+            @ApiParam(name = "courseQuery", value = "课程查询对象", required = false)
+                    CourseQuery courseQuery){
+        // 构建Page对象
+        Page<EduCourse> pageParam = new Page<>(page, limit);
+
+        // 获取分页列表
+        courseService.pageList(pageParam, courseQuery);
+
+        return R.ok().data("courseInfoList", pageParam.getRecords()).data("total", pageParam.getTotal());
+    }
 
     @ApiOperation(value = "新增课程")
     @PostMapping
@@ -41,15 +59,24 @@ public class EduCourseController {
             @RequestBody CourseInfoVo courseInfoVo) {
         String courseId = courseService.saveCourseInfo(courseInfoVo);
         if(!StringUtils.isEmpty(courseId)){
-            System.out.println(R.ok().data("courseId", courseId));
             return R.ok().data("courseId", courseId);
         }else{
             return R.error().message("保存失败");
         }
     }
 
+    @ApiOperation(value = "根据ID删除课程")
+    @DeleteMapping("{id}")
+    public R removeById(
+            @ApiParam(name = "id", value = "课程ID", required = true)
+            @PathVariable String id){
+        boolean flag = courseService.removeCourseById(id);
+        return flag ? R.ok() : R.error();
+    }
+
+    // 根据id查询课程
     @ApiOperation(value = "根据ID查询课程")
-    @GetMapping("course-info/{id}")
+    @GetMapping("{id}")
     public R getById(
             @ApiParam(name = "id", value = "课程ID", required = true)
             @PathVariable String id){
@@ -58,15 +85,12 @@ public class EduCourseController {
     }
 
     @ApiOperation(value = "更新课程")
-    @PutMapping("update-course-info/{id}")
+    @PutMapping
     public R updateCourseInfoById(
             @ApiParam(name = "CourseInfoForm", value = "课程基本信息", required = true)
-            @RequestBody CourseInfoVo courseInfoForm,
-            @ApiParam(name = "id", value = "课程ID", required = true)
-            @PathVariable String id){
-        courseInfoForm.setId(id);
+            @RequestBody CourseInfoVo courseInfoForm){
         courseService.updateCourseInfoById(courseInfoForm);
-        return R.ok().data("courseId",id);
+        return R.ok().data("courseId", courseInfoForm.getId());
     }
 
     @ApiOperation(value = "根据ID获取课程发布信息")
@@ -85,35 +109,6 @@ public class EduCourseController {
             @PathVariable String id){
         courseService.publishCourseById(id);
         return R.ok();
-    }
-
-    @ApiOperation(value = "分页课程列表")
-    @GetMapping("{page}/{limit}")
-    public R pageQuery(
-            @ApiParam(name = "page", value = "当前页码", required = true)
-            @PathVariable Long page,
-            @ApiParam(name = "limit", value = "每页记录数", required = true)
-            @PathVariable Long limit,
-            @ApiParam(name = "courseQuery", value = "查询对象", required = false)
-                    CourseQuery courseQuery){
-        Page<EduCourse> pageParam = new Page<>(page, limit);
-        courseService.pageQuery(pageParam, courseQuery);
-        List<EduCourse> records = pageParam.getRecords();
-        long total = pageParam.getTotal();
-        return R.ok().data("total", total).data("rows", records);
-    }
-
-    @ApiOperation(value = "根据ID删除课程")
-    @DeleteMapping("{id}")
-    public R removeById(
-            @ApiParam(name = "id", value = "课程ID", required = true)
-            @PathVariable String id){
-        boolean result = courseService.removeCourseById(id);
-        if(result){
-            return R.ok();
-        }else{
-            return R.error().message("删除失败");
-        }
     }
 }
 

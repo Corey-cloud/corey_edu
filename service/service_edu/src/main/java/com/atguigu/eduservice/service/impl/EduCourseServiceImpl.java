@@ -53,8 +53,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         EduCourse course = new EduCourse();
         course.setStatus(EduCourse.COURSE_DRAFT);
         BeanUtils.copyProperties(courseInfoVo, course);
-        boolean resultCourseInfo = this.save(course);
-        if(!resultCourseInfo){
+        boolean save = this.save(course);
+        if(!save){
             throw new GuliException(20001, "课程信息保存失败");
         }
         //保存课程详情信息
@@ -77,9 +77,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         CourseInfoVo courseInfoForm = new CourseInfoVo();
         BeanUtils.copyProperties(course, courseInfoForm);
         EduCourseDescription courseDescription = courseDescriptionService.getById(id);
-        if(course != null){
-            courseInfoForm.setDescription(courseDescription.getDescription());
-        }
+        courseInfoForm.setDescription(courseDescription.getDescription());
         return courseInfoForm;
     }
 
@@ -96,8 +94,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         EduCourseDescription courseDescription = new EduCourseDescription();
         courseDescription.setDescription(courseInfoVo.getDescription());
         courseDescription.setId(course.getId());
-        boolean resultDescription =
-                courseDescriptionService.updateById(courseDescription);
+        boolean resultDescription = courseDescriptionService.updateById(courseDescription);
         if(!resultDescription){
             throw new GuliException(20001, "课程详情信息保存失败");
         }
@@ -118,7 +115,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
     @Override
-    public void pageQuery(Page<EduCourse> pageParam, CourseQuery courseQuery) {
+    public void pageList(Page<EduCourse> pageParam, CourseQuery courseQuery) {
         QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("gmt_create");
         if (courseQuery == null) {
@@ -129,6 +126,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         String teacherId = courseQuery.getTeacherId();
         String subjectParentId = courseQuery.getSubjectParentId();
         String subjectId = courseQuery.getSubjectId();
+
         if (!StringUtils.isEmpty(title)) {
             queryWrapper.like("title",title);
         }
@@ -136,11 +134,12 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             queryWrapper.eq("teacher_id", teacherId);
         }
         if (!StringUtils.isEmpty(subjectParentId)) {
-            queryWrapper.ge("subject_parent_id", subjectParentId);
+            queryWrapper.eq("subject_parent_id", subjectParentId);
         }
         if (!StringUtils.isEmpty(subjectId)) {
-            queryWrapper.ge("subject_id", subjectId);
+            queryWrapper.eq("subject_id", subjectId);
         }
+
         baseMapper.selectPage(pageParam, queryWrapper);
     }
 

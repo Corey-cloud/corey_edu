@@ -24,19 +24,19 @@ import java.util.List;
 @Api(description="课程章节管理")
 //@CrossOrigin //跨域
 @RestController
-@RequestMapping("/eduservice/edu-chapter")
+@RequestMapping("/edu/admin/chapters")
 public class EduChapterController {
 
     @Autowired
     private EduChapterService chapterService;
 
-    @ApiOperation(value = "嵌套章节数据列表")
-    @GetMapping("nested-list/{courseId}")
+    @ApiOperation(value = "获取嵌套章节数据列表")
+    @GetMapping("/nestedList/{courseId}")
     public R nestedListByCourseId(
             @ApiParam(name = "courseId", value = "课程ID", required = true)
             @PathVariable String courseId){
         List<ChapterVo> chapterVoList = chapterService.nestedList(courseId);
-        return R.ok().data("items", chapterVoList);
+        return R.ok().data("chapterNestedList", chapterVoList);
     }
 
     @ApiOperation(value = "新增章节")
@@ -44,8 +44,8 @@ public class EduChapterController {
     public R save(
             @ApiParam(name = "chapterVo", value = "章节对象", required = true)
             @RequestBody EduChapter chapter){
-        chapterService.save(chapter);
-        return R.ok();
+        boolean save = chapterService.save(chapter);
+        return  save ? R.ok() : R.error();
     }
 
     @ApiOperation(value = "根据ID查询章节")
@@ -58,14 +58,12 @@ public class EduChapterController {
     }
 
     @ApiOperation(value = "根据ID修改章节")
-    @PutMapping("{id}")
+    @PutMapping
     public R updateById(
-            @ApiParam(name = "id", value = "章节ID", required = true)
-            @PathVariable String id,
             @ApiParam(name = "chapter", value = "章节对象", required = true)
             @RequestBody EduChapter chapter){
-        chapterService.updateById(chapter);
-        return R.ok();
+        boolean flag = chapterService.updateById(chapter);
+        return flag ? R.ok() : R.error();
     }
 
     @ApiOperation(value = "根据ID删除章节")
@@ -73,12 +71,8 @@ public class EduChapterController {
     public R removeById(
             @ApiParam(name = "id", value = "章节ID", required = true)
             @PathVariable String id){
-        boolean result = chapterService.removeChapterById(id);
-        if(result){
-            return R.ok();
-        }else{
-            return R.error().message("删除失败");
-        }
+        boolean flag = chapterService.removeChapterById(id);
+        return flag ? R.ok() : R.error();
     }
 }
 

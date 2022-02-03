@@ -41,6 +41,9 @@ public class EduCourse implements Serializable {
     @ApiModelProperty(value = "课程讲师ID")
     private String teacherId;
 
+    @TableField(exist = false)
+    private String teacherName;
+
     @ApiModelProperty(value = "课程专业ID")
     private String subjectId;
 

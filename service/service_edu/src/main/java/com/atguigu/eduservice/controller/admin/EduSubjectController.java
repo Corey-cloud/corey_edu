@@ -24,7 +24,7 @@ import java.util.List;
 @Api(description="课程分类管理")
 //@CrossOrigin //跨域
 @RestController
-@RequestMapping("/eduservice/edu-subject")
+@RequestMapping("/edu/admin/subjects")
 public class EduSubjectController {
 
     @Autowired
@@ -38,8 +38,8 @@ public class EduSubjectController {
         return R.ok();
     }
 
-    // 嵌套数据列表
-    @ApiOperation(value = "嵌套数据列表")
+    // 获取嵌套数据列表
+    @ApiOperation(value = "获取嵌套数据列表")
     @GetMapping
     public R nestedList() {
         List<SubjectNestedVo> subjectNestedVoList = eduSubjectService.nestedList();

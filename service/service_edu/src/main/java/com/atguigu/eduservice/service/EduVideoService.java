@@ -16,11 +16,7 @@ public interface EduVideoService extends IService<EduVideo> {
 
     boolean getCountByChapterId(String chapterId);
 
-    void saveVideoInfo(VideoInfoVo videoInfoForm);
-
     VideoInfoVo getVideoInfoFormById(String id);
-
-    void updateVideoInfoById(VideoInfoVo videoInfoForm);
 
     boolean removeVideoById(String id);
 

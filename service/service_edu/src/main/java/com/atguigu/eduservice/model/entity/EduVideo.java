@@ -39,7 +39,7 @@ public class EduVideo implements Serializable {
     @ApiModelProperty(value = "章节ID")
     private String chapterId;
 
-    @ApiModelProperty(value = "节点名称")
+    @ApiModelProperty(value = "视频名称")
     private String title;
 
     @ApiModelProperty(value = "云端视频资源")
@@ -55,7 +55,7 @@ public class EduVideo implements Serializable {
     private Long playCount;
 
     @ApiModelProperty(value = "是否可以试听：0收费 1免费")
-    private Boolean isFree;
+    private int isFree;
 
     @ApiModelProperty(value = "视频时长（秒）")
     private Float duration;
@@ -76,6 +76,5 @@ public class EduVideo implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
-
 
 }
