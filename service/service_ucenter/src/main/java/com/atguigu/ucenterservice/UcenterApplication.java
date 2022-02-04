@@ -1,4 +1,4 @@
-package com.atguigu.cmsservice;
+package com.atguigu.ucenterservice;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -7,15 +7,15 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * Created by corey on 2021/7/27
+ * Created by corey on 2021/7/28
  **/
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan({"com.atguigu"}) //指定扫描位置
-@MapperScan("com.atguigu.cmsservice.mapper")
-public class CmsApplication {
+@ComponentScan({"com.atguigu"})
+@MapperScan("com.atguigu.ucenterservice.mapper")
+public class UcenterApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CmsApplication.class, args);
+        SpringApplication.run(UcenterApplication.class, args);
     }
 }

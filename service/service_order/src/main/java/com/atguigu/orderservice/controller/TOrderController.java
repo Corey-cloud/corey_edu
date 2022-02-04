@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2021-08-01
  */
 @RestController
-@RequestMapping("/orderservice/order")
+@RequestMapping("/order")
 //@CrossOrigin
 public class TOrderController {
 
@@ -31,6 +31,10 @@ public class TOrderController {
     //根据课程id和用户id创建订单，返回订单id
     @PostMapping("createOrder/{courseId}")
     public R save(@PathVariable String courseId, HttpServletRequest request) {
+        Boolean token = JwtUtils.checkToken(request);
+        if (!token) {
+            return R.error().code(28004).message("请登录");
+        }
         String memberId = JwtUtils.getMemberIdByJwtToken(request);
         if (StringUtils.isEmpty(memberId)) {
             return R.error().code(28004).message("请登录");

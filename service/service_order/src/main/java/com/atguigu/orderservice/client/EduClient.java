@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface EduClient {
 
     //根据课程id查询课程信息
-    @GetMapping("/eduservice/front-course/getDto/{courseId}")
+    @GetMapping("/edu/courses/getDto/{courseId}")
     public CourseInfoVo getCourseInfoDto(@PathVariable String courseId);
 }

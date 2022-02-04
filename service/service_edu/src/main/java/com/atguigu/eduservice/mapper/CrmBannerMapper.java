@@ -1,6 +1,6 @@
-package com.atguigu.cmsservice.mapper;
+package com.atguigu.eduservice.mapper;
 
-import com.atguigu.cmsservice.entity.CrmBanner;
+import com.atguigu.eduservice.model.entity.CrmBanner;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

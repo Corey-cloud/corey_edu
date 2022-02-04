@@ -86,14 +86,14 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         //查询数据库中是否存在相同的手机号码
         Integer count = baseMapper.selectCount(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
         if(count > 0) {
-            throw new GuliException(20001,"error");
+            throw new GuliException(20001,"该手机号已注册");
         }
 
         //校验验证码
         //从redis获取发送的验证码
         String mobileCode = redisTemplate.opsForValue().get(mobile);
         if(!code.equals(mobileCode)) {
-            throw new GuliException(20001,"error");
+            throw new GuliException(20001,"验证码错误");
         }
 
         //添加注册信息到数据库

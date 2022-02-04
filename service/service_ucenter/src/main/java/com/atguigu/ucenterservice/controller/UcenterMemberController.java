@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-07-29
  */
 @RestController
-@RequestMapping("/ucenterservice/ucenter-member")
+@RequestMapping("/ucenter/admin/member")
 public class UcenterMemberController {
 
     @Autowired

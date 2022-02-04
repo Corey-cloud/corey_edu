@@ -17,7 +17,7 @@ import java.util.List;
  * Created by corey on 2021/7/27
  **/
 @RestController
-@RequestMapping("/eduservice/index")
+@RequestMapping("/edu/index")
 //@CrossOrigin
 public class IndexController {
 
@@ -35,13 +35,13 @@ public class IndexController {
         QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("id");
         wrapper.last("limit 8");
-        List<EduCourse> eduList = courseService.list(wrapper);
+        List<EduCourse> courseList = courseService.list(wrapper);
 
         //查询前4条名师
         QueryWrapper<EduTeacher> wrapperTeacher = new QueryWrapper<>();
         wrapperTeacher.orderByDesc("id");
         wrapperTeacher.last("limit 4");
         List<EduTeacher> teacherList = teacherService.list(wrapperTeacher);
-        return R.ok().data("eduList",eduList).data("teacherList",teacherList);
+        return R.ok().data("courseList",courseList).data("teacherList",teacherList);
     }
 }

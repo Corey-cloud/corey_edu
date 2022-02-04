@@ -1,6 +1,6 @@
-package com.atguigu.cmsservice.service;
+package com.atguigu.eduservice.service;
 
-import com.atguigu.cmsservice.entity.CrmBanner;
+import com.atguigu.eduservice.model.entity.CrmBanner;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -17,8 +17,6 @@ import java.util.List;
 public interface CrmBannerService extends IService<CrmBanner> {
 
     void pageBanner(Page<CrmBanner> pageParam, Object o);
-
-    CrmBanner getBannerById(String id);
 
     void saveBanner(CrmBanner banner);
 

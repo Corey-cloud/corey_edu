@@ -22,7 +22,7 @@ import java.util.Map;
 @Api(description = "前台讲师信息")
 @RestController
 //@CrossOrigin
-@RequestMapping(value = "/eduservice/front-teacher")
+@RequestMapping(value = "/edu/teachers")
 public class TeacherController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class TeacherController {
     @Autowired
     EduCourseService courseService;
 
-    @ApiOperation(value = "分页讲师列表")
+    @ApiOperation(value = "获取讲师分页列表")
     @GetMapping(value = "{page}/{limit}")
     public R pageList(
             @ApiParam(name = "page", value = "当前页码", required = true)
@@ -44,7 +44,7 @@ public class TeacherController {
     }
 
     @ApiOperation(value = "根据ID查询讲师")
-    @GetMapping(value = "{id}")
+    @GetMapping("/{id}")
     public R getById(
             @ApiParam(name = "id", value = "讲师ID", required = true)
             @PathVariable String id){

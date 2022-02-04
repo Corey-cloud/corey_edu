@@ -34,7 +34,7 @@ public class EduSubjectController {
     @ApiOperation(value = "Excel批量导入")
     @PostMapping("addSubject")
     public R addSubject(MultipartFile file) {
-        eduSubjectService.saveSubject(file,eduSubjectService);
+        eduSubjectService.saveSubject(file, eduSubjectService);
         return R.ok();
     }
 

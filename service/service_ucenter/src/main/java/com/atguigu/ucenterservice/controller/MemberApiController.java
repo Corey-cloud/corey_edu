@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 @Api(description="用户登录注册")
 @RestController
 //@CrossOrigin //跨域
-@RequestMapping("/ucenterservice/apimember")
+@RequestMapping("/ucenter/member")
 public class MemberApiController {
 
     @Autowired
@@ -57,7 +57,7 @@ public class MemberApiController {
             System.out.println("memberId: "+ memberId);
             UcenterMember loginInfoVo = memberService.getLoginInfo(memberId);
             System.out.println("loginInfo: " + loginInfoVo);
-            return R.ok().data("item", loginInfoVo);
+            return R.ok().data("userInfo", loginInfoVo);
         }catch (Exception e){
             e.printStackTrace();
             throw new GuliException(20001,"error");

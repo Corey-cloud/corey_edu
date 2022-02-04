@@ -1,8 +1,8 @@
-package com.atguigu.cmsservice.service.impl;
+package com.atguigu.eduservice.service.impl;
 
-import com.atguigu.cmsservice.entity.CrmBanner;
-import com.atguigu.cmsservice.mapper.CrmBannerMapper;
-import com.atguigu.cmsservice.service.CrmBannerService;
+import com.atguigu.eduservice.mapper.CrmBannerMapper;
+import com.atguigu.eduservice.model.entity.CrmBanner;
+import com.atguigu.eduservice.service.CrmBannerService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -35,10 +35,6 @@ public class CrmBannerServiceImpl extends ServiceImpl<CrmBannerMapper, CrmBanner
         baseMapper.selectPage(pageParam,null);
     }
 
-    @Override
-    public CrmBanner getBannerById(String id) {
-        return baseMapper.selectById(id);
-    }
 
     @CacheEvict(value = "banner", allEntries=true)
     @Override

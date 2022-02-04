@@ -26,7 +26,7 @@ import java.util.Map;
 
 @Api(description = "前台评论信息")
 @RestController
-@RequestMapping("/eduservice/comment")
+@RequestMapping("/edu/comments")
 //@CrossOrigin
 public class CommentFrontController {
     @Autowired
@@ -63,6 +63,10 @@ public class CommentFrontController {
     @ApiOperation(value = "添加评论")
     @PostMapping("auth/save")
     public R save(@RequestBody EduComment comment, HttpServletRequest request) {
+        boolean token = JwtUtils.checkToken(request);
+        if (!token) {
+            return R.error().code(28004).message("请登录");
+        }
         String memberId = JwtUtils.getMemberIdByJwtToken(request);
         if (StringUtils.isEmpty(memberId)) {
             return R.error().code(28004).message("请登录");

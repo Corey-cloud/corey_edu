@@ -15,5 +15,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UcenterClient {
 
     @GetMapping(value = "/ucenterservice/ucenter-member/countregister/{day}")
-    public R registerCount(@PathVariable String day);
+    R registerCount(@PathVariable String day);
 }

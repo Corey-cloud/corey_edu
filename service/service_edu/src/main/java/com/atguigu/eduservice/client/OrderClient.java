@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Component
 @FeignClient(value = "service-order", fallback = OrderFile.class)
 public interface OrderClient {
-    @GetMapping("/orderservice/order/isBuyCourse/{memberId}/{courseId}")
-    public boolean isBuyCourse(@PathVariable String memberId,
+    @GetMapping("/order/isBuyCourse/{memberId}/{courseId}")
+    boolean isBuyCourse(@PathVariable String memberId,
                                @PathVariable String courseId);
 }
