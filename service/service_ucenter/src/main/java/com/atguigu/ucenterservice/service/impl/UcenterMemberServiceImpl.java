@@ -115,4 +115,12 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
     public Integer countRegisterByDay(String day) {
         return baseMapper.selectRegisterCount(day);
     }
+
+    @Override
+    public UcenterMember getByOpenId(String openid) {
+        QueryWrapper<UcenterMember> wrapper = new QueryWrapper<>();
+        wrapper.eq("open_id", openid);
+        UcenterMember ucenterMember = baseMapper.selectOne(wrapper);
+        return ucenterMember;
+    }
 }
