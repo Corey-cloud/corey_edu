@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
  * 课程
  * </p>
  *
- * @author testjava
+ * @author corey
  * @since 2021-07-23
  */
 @Data
@@ -40,9 +40,6 @@ public class EduCourse implements Serializable {
 
     @ApiModelProperty(value = "课程讲师ID")
     private String teacherId;
-
-    @TableField(exist = false)
-    private String teacherName;
 
     @ApiModelProperty(value = "课程专业ID")
     private String subjectId;
@@ -68,11 +65,17 @@ public class EduCourse implements Serializable {
     @ApiModelProperty(value = "浏览数量")
     private Long viewCount;
 
+    @ApiModelProperty(value = "评论数量")
+    private Long commentCount;
+
     @ApiModelProperty(value = "乐观锁")
     private Long version;
 
     @ApiModelProperty(value = "课程状态 Draft未发布  Normal已发布")
     private String status;
+
+    @TableField(exist = false)
+    private boolean showWord = true;
 
     @ApiModelProperty(value = "逻辑删除 1（true）已删除， 0（false）未删除")
     private Integer isDeleted;
@@ -84,6 +87,5 @@ public class EduCourse implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
-
 
 }

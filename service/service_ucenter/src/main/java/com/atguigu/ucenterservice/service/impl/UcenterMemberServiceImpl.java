@@ -47,17 +47,17 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         //获取会员
         UcenterMember member = baseMapper.selectOne(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
         if(null == member) {
-            throw new GuliException(20001,"error");
+            throw new GuliException(20001,"该用户不存在！");
         }
 
         //校验密码
         if(!MD5.encrypt(password).equals(member.getPassword())) {
-            throw new GuliException(20001,"error");
+            throw new GuliException(20001,"密码错误！");
         }
 
         //校验是否被禁用
         if(member.getIsDisabled()) {
-            throw new GuliException(20001,"error");
+            throw new GuliException(20001,"该用户已被禁用！");
         }
 
         //使用JWT生成token字符串

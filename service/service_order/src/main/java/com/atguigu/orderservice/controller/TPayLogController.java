@@ -32,6 +32,7 @@ public class TPayLogController {
     @GetMapping("/createNative/{orderNo}")
     public R createNative(@PathVariable String orderNo) {
         Map map = payService.createNative(orderNo);
+        System.out.println("-----订单："+orderNo+" 生成支付二维码-----");
         return R.ok().data(map);
     }
 

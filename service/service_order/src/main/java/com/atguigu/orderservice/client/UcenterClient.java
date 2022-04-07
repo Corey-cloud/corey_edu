@@ -16,5 +16,5 @@ public interface UcenterClient {
 
     //根据用户id获取用户信息
     @PostMapping("/ucenter/member/getInfoUc/{id}")
-    public UcenterMemberVo getInfo(@PathVariable String id);
+    UcenterMemberVo getInfo(@PathVariable String id);
 }

@@ -77,7 +77,13 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         CourseInfoVo courseInfoForm = new CourseInfoVo();
         BeanUtils.copyProperties(course, courseInfoForm);
         EduCourseDescription courseDescription = courseDescriptionService.getById(id);
-        courseInfoForm.setDescription(courseDescription.getDescription());
+        if (courseDescription == null) {
+            courseDescriptionService.save(new EduCourseDescription().setId(id).setDescription(""));
+            courseInfoForm.setDescription("");
+        } else {
+            courseInfoForm.setDescription(courseDescription.getDescription());
+        }
+
         return courseInfoForm;
     }
 
@@ -203,7 +209,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         boolean hasNext = pageParam.hasNext();
         boolean hasPrevious = pageParam.hasPrevious();
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("items", records);
         map.put("current", current);
         map.put("pages", pages);

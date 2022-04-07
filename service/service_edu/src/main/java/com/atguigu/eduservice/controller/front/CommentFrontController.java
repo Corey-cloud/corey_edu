@@ -5,7 +5,9 @@ import com.atguigu.commonutils.R;
 import com.atguigu.commonutils.vo.UcenterMemberVo;
 import com.atguigu.eduservice.client.UcenterClient;
 import com.atguigu.eduservice.model.entity.EduComment;
+import com.atguigu.eduservice.model.entity.EduCourse;
 import com.atguigu.eduservice.service.EduCommentService;
+import com.atguigu.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,6 +33,10 @@ import java.util.Map;
 public class CommentFrontController {
     @Autowired
     private EduCommentService commentService;
+
+    @Autowired
+    private EduCourseService courseService;
+
     @Autowired
     private UcenterClient ucenterClient;
 
@@ -65,7 +71,7 @@ public class CommentFrontController {
     public R save(@RequestBody EduComment comment, HttpServletRequest request) {
         boolean token = JwtUtils.checkToken(request);
         if (!token) {
-            return R.error().code(28004).message("请登录");
+            return R.error().code(28000).message("未登录评论");
         }
         String memberId = JwtUtils.getMemberIdByJwtToken(request);
         if (StringUtils.isEmpty(memberId)) {
@@ -73,9 +79,22 @@ public class CommentFrontController {
         }
         comment.setMemberId(memberId);
         UcenterMemberVo ucenterInfo = ucenterClient.getInfo(memberId);
+        if (ucenterInfo == null) {
+            return R.error().message("无法获取用户信息");
+        }
         comment.setNickname(ucenterInfo.getNickname());
         comment.setAvatar(ucenterInfo.getAvatar());
         commentService.save(comment);
+
+        // 获取该课程下的评论数
+        String courseId = comment.getCourseId();
+        EduCourse eduCourse = courseService.getById(courseId);
+
+        // 课程评论数更新
+        EduCourse course = new EduCourse();
+        course.setId(courseId);
+        course.setCommentCount(eduCourse.getCommentCount()+1);
+        courseService.updateById(course);
         return R.ok();
     }
 }

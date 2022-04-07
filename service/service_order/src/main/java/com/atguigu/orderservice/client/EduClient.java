@@ -15,5 +15,5 @@ public interface EduClient {
 
     //根据课程id查询课程信息
     @GetMapping("/edu/courses/getDto/{courseId}")
-    public CourseInfoVo getCourseInfoDto(@PathVariable String courseId);
+    CourseInfoVo getCourseInfoDto(@PathVariable String courseId);
 }

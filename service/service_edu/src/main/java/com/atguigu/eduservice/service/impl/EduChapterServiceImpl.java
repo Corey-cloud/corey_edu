@@ -32,7 +32,8 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
     private EduVideoService videoService;
 
     @Override
-    public List<ChapterVo> nestedList(String courseId) {
+    public List<ChapterVo>
+    nestedList(String courseId) {
 
         //最终要得到的数据列表
         ArrayList<ChapterVo> chapterVoArrayList = new ArrayList<>();

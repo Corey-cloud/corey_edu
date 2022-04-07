@@ -68,6 +68,10 @@ public class VodController {
         request.setVideoId(videoId);
         //响应
         GetVideoPlayAuthResponse response = client.getAcsResponse(request);
+        // if the video does not exist
+        if (response == null) {
+            return R.error().message("The video does not exist");
+        }
         //得到播放凭证
         String playAuth = response.getPlayAuth();
         System.out.println("播放凭证："+playAuth);

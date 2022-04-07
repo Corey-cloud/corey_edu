@@ -40,7 +40,6 @@ public class TOrderController {
             return R.error().code(28004).message("请登录");
         }
         String orderId = orderService.saveOrder(courseId, memberId);
-        System.out.println("orderId:"+orderId);
         return R.ok().data("orderId", orderId);
     }
 
@@ -49,7 +48,6 @@ public class TOrderController {
         QueryWrapper<TOrder> wrapper = new QueryWrapper<>();
         wrapper.eq("order_no",orderId);
         TOrder order = orderService.getOne(wrapper);
-        System.out.println("item:"+order);
         return R.ok().data("item", order);
     }
 

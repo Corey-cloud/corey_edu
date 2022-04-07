@@ -41,7 +41,7 @@ public class CourseController {
     private OrderClient orderClient;
 
     @ApiOperation(value = "分页课程列表")
-    @PostMapping(value = "{page}/{limit}")
+    @PostMapping(value = "/{page}/{limit}")
     public R pageList(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Long page,
@@ -55,7 +55,7 @@ public class CourseController {
     }
 
     @ApiOperation(value = "根据ID查询课程")
-    @GetMapping(value = "{courseId}")
+    @GetMapping(value = "/{courseId}")
     public R getById(
             @ApiParam(name = "courseId", value = "课程ID", required = true)
             @PathVariable String courseId,
@@ -78,7 +78,7 @@ public class CourseController {
     }
 
     //根据课程id查询课程信息
-    @GetMapping("getDto/{courseId}")
+    @GetMapping("/getDto/{courseId}")
     public CourseInfoVo getCourseInfoDto(@PathVariable String courseId) {
 
         CourseInfoVo courseInfo = courseService.getCourseInfo(courseId);

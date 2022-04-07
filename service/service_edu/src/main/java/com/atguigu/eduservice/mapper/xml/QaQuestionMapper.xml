@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.eduservice.mapper.QaQuestionMapper">
+
+
+
+    <select id="selectQuestion" resultMap="Qt">
+        select * from qa_question where id = #{id}
+    </select>
+
+
+    <resultMap id="Qt" type="com.atguigu.eduservice.model.entity.QaQuestion">
+        <id property="id" column="id"></id>
+        <result property="memberId" column="member_id"></result>
+        <result property="memberAvatar" column="member_avatar"></result>
+        <result property="memberNickname" column="member_nickname"></result>
+        <result property="questionTitle" column="question_title"></result>
+        <result property="questionDetails" column="question_details"></result>
+        <result property="qtIds" column="qt_ids"></result>
+        <result property="qaComments" column="qa_comments"></result>
+        <result property="qaView" column="qa_view"></result>
+        <result property="gmtCreate" column="gmt_create"></result>
+
+        <collection property="qaAnswerList" javaType="ArrayList" column="id" ofType="com.atguigu.eduservice.model.entity.QaAnswer" select="selectAnSwers" >
+            <id property="id" column="id"></id>
+            <result property="memberId" column="member_id"></result>
+            <result property="memberAvatar" column="member_avatar"></result>
+            <result property="memberNickname" column="member_nickname"></result>
+            <result property="questionId" column="question_id"></result>
+            <result property="answerDetails" column="answer_details"></result>
+            <result property="gmtCreate" column="gmt_create"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectAnSwers" resultMap="2Answer">
+        select * from qa_answer where question_id = #{id}
+    </select>
+
+    <resultMap id="2Answer" type="com.atguigu.eduservice.model.entity.QaAnswer">
+        <id property="id" column="id"></id>
+        <result property="memberId" column="member_id"></result>
+        <result property="memberAvatar" column="member_avatar"></result>
+        <result property="memberNickname" column="member_nickname"></result>
+        <result property="questionId" column="question_id"></result>
+        <result property="answerDetails" column="answer_details"></result>
+        <result property="gmtCreate" column="gmt_create"></result>
+        <collection  javaType="ArrayList"  property="answer2List" column="id" ofType="com.atguigu.eduservice.model.entity.QaSecondAnswer" select="select2Answer"/>
+    </resultMap>
+
+    <select id="select2Answer" resultType="com.atguigu.eduservice.model.entity.QaSecondAnswer" >
+        select * from qa_second_answer where answer_id = #{id}
+    </select>
+</mapper>

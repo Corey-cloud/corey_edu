@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 //@CrossOrigin //跨域
-@RequestMapping("/msm")
+@RequestMapping("/aliyun")
 public class MsmApiController {
 
     @Autowired
