@@ -91,7 +91,7 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
         QueryWrapper<TOrder> wrapper = new QueryWrapper<>();
         wrapper.eq("order_no",orderNo);
         TOrder order = orderService.getOne(wrapper);
-        if(order.getStatus().intValue() == 1) return;
+        if(order.getStatus() == 1) return;
         order.setStatus(1);
         orderService.updateById(order);
 
