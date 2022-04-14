@@ -8,6 +8,7 @@ import com.atguigu.orderservice.entity.TOrder;
 import com.atguigu.orderservice.mapper.TOrderMapper;
 import com.atguigu.orderservice.service.TOrderService;
 import com.atguigu.orderservice.utils.OrderNoUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,5 +53,9 @@ public class TOrderServiceImpl extends ServiceImpl<TOrderMapper, TOrder> impleme
         baseMapper.insert(order);
 
         return order.getOrderNo();
+    }
+
+    public TOrder getOrder(String courseId, String memberId) {
+        return baseMapper.selectOne(new QueryWrapper<TOrder>().eq("course_id", courseId).eq("member_id", memberId).eq("status", 0));
     }
 }
