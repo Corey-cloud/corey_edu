@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface QaAnswerService extends IService<QaAnswer> {
 
-    Map<String, Object> getAnswerAnd2Answer(Integer page, Integer limit, Integer questionId);
+    Map<String, Object> getAnswerAnd2Answer(Integer page, Integer limit, String questionId);
 
     /**
      * 回帖

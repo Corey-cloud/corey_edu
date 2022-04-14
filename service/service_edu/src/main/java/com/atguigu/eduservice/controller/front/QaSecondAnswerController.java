@@ -23,13 +23,10 @@ public class QaSecondAnswerController {
 
     @ApiOperation(value = "二级回帖")
     @PostMapping("/2Reply")
-    public R reply(@RequestBody(required = false) QaSecondAnswer answer) {
+    public R reply(@RequestBody QaSecondAnswer answer) {
         try {
-            if (!StringUtils.isEmpty((CharSequence) answer)) {
-                answerService.save(answer);
-                return R.ok();
-            }
-            return R.error();
+            answerService.save(answer);
+            return R.ok();
         } catch (Exception e) {
             return R.error();
         }

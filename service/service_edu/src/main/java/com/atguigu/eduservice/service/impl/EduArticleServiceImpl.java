@@ -26,7 +26,7 @@ public class EduArticleServiceImpl extends ServiceImpl<EduArticleMapper, EduArti
     @Override
     public Map<String, Object> pageListWeb(Page<EduArticle> pageParam, ArticleQueryVo articleQueryVo) {
         QueryWrapper<EduArticle> queryWrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty((CharSequence) articleQueryVo)) {
+        if (articleQueryVo != null) {
             if (!StringUtils.isEmpty(articleQueryVo.getContentTitle())) {
                 queryWrapper.like("content_title", articleQueryVo.getContentTitle());
             }
@@ -66,11 +66,6 @@ public class EduArticleServiceImpl extends ServiceImpl<EduArticleMapper, EduArti
         qw.orderByDesc("content_comment", "gmt_create");
         qw.last("limit 8");
         return baseMapper.selectList(qw);
-    }
-
-    @Override
-    public void editCommentNumById(Integer contentId, Integer commentNum) {
-        baseMapper.updateNumById(contentId, commentNum);
     }
 
 }

@@ -45,21 +45,20 @@ public class QaQuestionController {
     @ApiOperation(value = "发布问题")
     @PostMapping("/publish")
     public R publish(
-            @RequestBody(required = false) QaQuestion question,
-            @ApiIgnore HttpServletRequest request) {
+            @RequestBody QaQuestion question, @ApiIgnore HttpServletRequest request) {
+        boolean token = JwtUtils.checkToken(request);
+        if (!token) {
+            return R.error().code(28000).message("未登录评论");
+        }
         String memberId = JwtUtils.getMemberIdByJwtToken(request);
         if (StringUtils.isEmpty(memberId)) {
             return R.error().code(28004).message("请登录");
         }
-        try {
-            if (!StringUtils.isEmpty((CharSequence) question)) {
-                questionService.save(question);
-                return R.ok();
-            } else {
-                return R.error();
-            }
-        } catch (Exception e) {
-            return R.error();
+        boolean save = questionService.save(question);
+        if (save) {
+            return R.ok();
+        } else {
+            return R.error().message("发布失败");
         }
     }
 
@@ -82,7 +81,7 @@ public class QaQuestionController {
         return R.ok().data(map);
     }
 
-    @ApiOperation(value = "删除帖子")
+    @ApiOperation(value = "批量删除")
     @DeleteMapping("/batchRemove")
     public R batchRemove(@RequestBody List<String> idList) {
         try {
@@ -93,8 +92,8 @@ public class QaQuestionController {
         }
     }
 
-    @ApiOperation(value = "批量删除")
-    @DeleteMapping("/remove/{id}")
+    @ApiOperation(value = "根据id删除")
+    @DeleteMapping("/{id}")
     public R remove(@PathVariable("id") String id) {
         try {
             questionService.removeById(id);
@@ -104,7 +103,7 @@ public class QaQuestionController {
         }
     }
 
-    @ApiOperation(value = "获取帖子信息")
+    @ApiOperation(value = "根据id获取帖子信息")
     @GetMapping("/{id}")
     public R get(@PathVariable("id") String id) {
         try {
@@ -118,12 +117,8 @@ public class QaQuestionController {
     @PutMapping("/updateStatus")
     public R update(@RequestBody QaUpdateVo qaUpdateVo) {
         try {
-            if (!StringUtils.isEmpty((CharSequence) qaUpdateVo)) {
-                questionService.updateEnable(qaUpdateVo);
-                return R.ok();
-            } else {
-                return R.error();
-            }
+            questionService.updateEnable(qaUpdateVo);
+            return R.ok();
         } catch (Exception e) {
             return R.error();
         }

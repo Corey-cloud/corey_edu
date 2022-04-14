@@ -33,6 +33,7 @@ public class ArticleController {
             @PathVariable Long limit,
             @ApiParam(name = "articleQueryVo", value = "查询对象", required = false)
             @RequestBody(required = false) ArticleQueryVo articleQueryVo) {
+        System.out.println("文章查询对象："+articleQueryVo);
         Page<EduArticle> pageParam = new Page<>(page, limit);
         Map<String, Object> map = articleService.pageListWeb(pageParam, articleQueryVo);
         return R.ok().data(map);
@@ -58,9 +59,17 @@ public class ArticleController {
     @GetMapping("/hitZan/{id}")
     public R hitZan(@PathVariable("id") String id) {
         EduArticle article = articleService.getById(id);
-        article.setContentHit(article.getContentHit()+1);
-        articleService.updateById(article);
-        return R.ok();
+        if (article == null) {
+            return R.error().message("该文章不存在，无法点赞");
+        }
+        EduArticle eduArticle = new EduArticle();
+        eduArticle.setId(id).setContentHit(article.getContentHit()+1);
+        boolean flag = articleService.updateById(eduArticle);
+        if (flag) {
+            return R.ok();
+        } else {
+            return R.error().message("点赞失败");
+        }
     }
 
     @ApiOperation(value = "修改文章")

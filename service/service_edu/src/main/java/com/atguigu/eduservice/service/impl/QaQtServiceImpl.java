@@ -22,7 +22,7 @@ public class QaQtServiceImpl extends ServiceImpl<QaQtMapper, QaQt> implements Qa
 
     @Override
     public List<QaTypeVo> queryTypes() {
-        List<QaQt> qaQts = selectQuestionTypes();
+        List<QaQt> qaQts = baseMapper.selectList(new QueryWrapper<QaQt>().select("id", "type_name"));
         List<QaTypeVo> resList = new ArrayList<>();
         for (QaQt qaQt : qaQts) {
             QaTypeVo qaQtVo = new QaTypeVo();
@@ -30,12 +30,5 @@ public class QaQtServiceImpl extends ServiceImpl<QaQtMapper, QaQt> implements Qa
             resList.add(qaQtVo);
         }
         return resList;
-    }
-
-    /**
-     * 查询问题所有类型
-     */
-    public List<QaQt> selectQuestionTypes() {
-        return baseMapper.selectList(new QueryWrapper<QaQt>().select("id", "type_name"));
     }
 }

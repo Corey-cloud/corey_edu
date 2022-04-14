@@ -21,7 +21,7 @@ public class QaTypeVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键id")
-    private Integer id;
+    private String id;
 
     @ApiModelProperty(value = "问题名称")
     private String typeName;

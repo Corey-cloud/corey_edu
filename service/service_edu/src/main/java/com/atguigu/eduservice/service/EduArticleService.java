@@ -23,11 +23,4 @@ public interface EduArticleService extends IService<EduArticle> {
      */
     List<EduArticle> getHotArticle();
 
-
-    /**
-     * 更新评论数
-     * @param contentId
-     * @param commentNum
-     */
-    void editCommentNumById(Integer contentId,Integer commentNum);
 }

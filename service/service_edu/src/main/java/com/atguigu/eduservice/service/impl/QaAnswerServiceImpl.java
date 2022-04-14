@@ -31,7 +31,7 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
     private QaQuestionService questionService;
 
     @Override
-    public Map<String, Object> getAnswerAnd2Answer(Integer page, Integer limit, Integer questionId) {
+    public Map<String, Object> getAnswerAnd2Answer(Integer page, Integer limit, String questionId) {
         Page<QaAnswer> pageParam = new Page<>(page, limit);
         QueryWrapper<QaAnswer> qw = new QueryWrapper<>();
         qw.eq("question_id",questionId);
@@ -75,7 +75,7 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
      * @param id
      * @return
      */
-    public QaQuestion queryQtAnswer(Integer id) {
+    public QaQuestion queryQtAnswer(String id) {
         return questionService.getById(id);
     }
 
@@ -84,7 +84,7 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
      * @param id
      * @return
      */
-    public int queryCommentCount(Integer id) {
+    public int queryCommentCount(String id) {
         return baseMapper.selectCount(new QueryWrapper<QaAnswer>().eq("question_id",id));
     }
 

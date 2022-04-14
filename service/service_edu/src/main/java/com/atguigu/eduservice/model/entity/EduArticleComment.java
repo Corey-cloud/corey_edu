@@ -9,41 +9,41 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
- * Created by corey on 2022/3/31
- **/
+ * <p>
+ * 文章评论
+ * </p>
+ *
+ * @author Panghl
+ * @since 2021-03-11
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="QaAnswer对象", description="问题--回帖详情表")
-public class QaAnswer implements Serializable {
+@ApiModel(value="EduArticleComment", description="文章评论")
+public class EduArticleComment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键自增id")
+    @ApiModelProperty(value = "主键id")
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
-    @ApiModelProperty(value = "会员id",required = true)
+    @ApiModelProperty(value = "文章id")
+    private String articleId;
+
+    @ApiModelProperty(value = "会员id")
     private String memberId;
 
     @ApiModelProperty(value = "会员名称")
-    private String memberNickname;
+    private String nickname;
 
     @ApiModelProperty(value = "会员头像")
-    private String memberAvatar;
+    private String avatar;
 
-    @ApiModelProperty(value = "问题帖子id",required = true)
-    private String questionId;
-
-    @ApiModelProperty(value = "回帖详情",required = true)
-    private String answerDetails;
-
-    @ApiModelProperty(value = "2级回复",required = false)
-    @TableField(exist = false)
-    private List<QaSecondAnswer> answer2List;
+    @ApiModelProperty(value = "文章评论信息")
+    private String content;
 
     @ApiModelProperty(value = "删除标识")
     @TableLogic
@@ -56,8 +56,5 @@ public class QaAnswer implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
-
-    @ApiModelProperty(value = "备注")
-    private String remark;
 
 }

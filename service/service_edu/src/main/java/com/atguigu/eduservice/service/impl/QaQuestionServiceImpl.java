@@ -28,7 +28,7 @@ public class QaQuestionServiceImpl extends ServiceImpl<QaQuestionMapper, QaQuest
         Page<QaQuestion> pageParam = new Page<>(page, limit);
         QueryWrapper<QaQuestion> qw = new QueryWrapper<>();
         if (null != questionQueryVo) {
-
+            System.out.println(questionQueryVo);
             switch (questionQueryVo.getQt()) {
                 case "1":
                     qw.orderByDesc("gmt_modified");
@@ -128,7 +128,7 @@ public class QaQuestionServiceImpl extends ServiceImpl<QaQuestionMapper, QaQuest
     }
 
     //根据id 查询问答的帖子
-    public QaQuestion selectQtById(Integer id){
+    public QaQuestion selectQtById(String id){
         return baseMapper.selectById(id);
     }
 

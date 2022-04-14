@@ -18,5 +18,5 @@ public interface QaSecondAnswerService extends IService<QaSecondAnswer> {
      * @param questionId
      * @return
      */
-    int queryCommentCount(Integer questionId);
+    int queryCommentCount(String questionId);
 }

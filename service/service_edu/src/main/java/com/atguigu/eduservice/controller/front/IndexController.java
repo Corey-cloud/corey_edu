@@ -31,7 +31,7 @@ public class IndexController {
     @GetMapping
     public R index() {
 
-        //查询前9条热门课程
+        //查询前12条热门课程
         QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("id");
         wrapper.last("limit 12");

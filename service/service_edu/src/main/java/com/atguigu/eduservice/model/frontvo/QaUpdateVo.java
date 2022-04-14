@@ -19,7 +19,7 @@ public class QaUpdateVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "id",required = true)
-    private Integer id;
+    private String id;
 
     @ApiModelProperty(value = "问答状态-是否发布成功",required = false)
     private Integer enable;

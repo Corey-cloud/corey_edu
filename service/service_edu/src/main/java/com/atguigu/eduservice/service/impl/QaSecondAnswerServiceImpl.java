@@ -24,7 +24,7 @@ public class QaSecondAnswerServiceImpl extends ServiceImpl<QaSecondAnswerMapper,
     }
 
     @Override
-    public int queryCommentCount(Integer questionId) {
+    public int queryCommentCount(String questionId) {
         return baseMapper.selectCount(new QueryWrapper<QaSecondAnswer>().eq("question_id",questionId));
     }
 }
