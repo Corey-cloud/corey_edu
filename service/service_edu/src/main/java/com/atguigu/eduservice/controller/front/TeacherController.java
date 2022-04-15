@@ -38,7 +38,7 @@ public class TeacherController {
             @PathVariable Long page,
             @ApiParam(name = "limit", value = "每页记录数", required = true)
             @PathVariable Long limit){
-        Page<EduTeacher> pageParam = new Page<EduTeacher>(page, limit);
+        Page<EduTeacher> pageParam = new Page<>(page, limit);
         Map<String, Object> map = teacherService.pageListWeb(pageParam);
         return R.ok().data(map);
     }
