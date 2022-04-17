@@ -37,16 +37,19 @@ public class MsmApiController {
 
         code = RandomUtil.getSixBitRandom();
         System.out.println("验证码："+code);
-        Map<String,Object> param = new HashMap<>();
-        param.put("code", code);
-        redisTemplate.opsForValue().set(phone, code,5, TimeUnit.MINUTES);
-        return R.ok().data("这是模拟用阿里的api发送的验证码：",code);
-//        boolean isSend = msmService.send(phone, "SMS_220637734", param);
-//        if(isSend) {
-//            redisTemplate.opsForValue().set(phone, code,5, TimeUnit.MINUTES);
-//            return R.ok();
-//        } else {
-//            return R.error().message("发送短信失败");
-//        }
+        boolean isSend = false;
+        try {
+            isSend = msmService.send(phone, code);
+        } catch (Exception e) {
+            return R.error().message(e.getMessage());
+        }
+
+       if(isSend) {
+           System.out.println("短信发送成功");
+           redisTemplate.opsForValue().set(phone, code,15, TimeUnit.MINUTES);
+           return R.ok();
+       } else {
+           return R.error().message("发送短信失败");
+       }
     }
 }

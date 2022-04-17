@@ -64,7 +64,7 @@ public class TOrderController {
                         System.out.println("order_no:"+orderId);
                         TOrder one1 = orderService.getOne(new QueryWrapper<TOrder>().eq("order_no", orderId).eq("status", 0));
                         System.out.println("one:"+one1);
-                        if (one1!= null) {
+                        if (one1 != null) {
                             orderService.update(new TOrder().setStatus(2), new UpdateWrapper<TOrder>().eq("order_no", orderId));
                         }
                     } catch (InterruptedException e) {
@@ -119,5 +119,14 @@ public class TOrderController {
         } else {
             return false;
         }
+    }
+
+    @PutMapping("/cancelOrder/{orderNo}")
+    public R cancelOrder(@PathVariable String orderNo) {
+        boolean flag = orderService.update(new TOrder().setStatus(3), new UpdateWrapper<TOrder>().eq("order_no", orderNo));
+        if (flag) {
+            return R.ok();
+        }
+        return R.error();
     }
 }

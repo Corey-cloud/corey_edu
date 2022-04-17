@@ -35,7 +35,7 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
      * @return
      */
     @Override
-    public String login(LoginVo loginVo) {
+    public String login(LoginVo loginVo) throws RuntimeException {
         String mobile = loginVo.getMobile();
         String password = loginVo.getPassword();
 
@@ -80,7 +80,7 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
 
         //校验参数
         if(StringUtils.isEmpty(nickname) || StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password) || StringUtils.isEmpty(code)) {
-            throw new GuliException(20001,"error");
+            throw new GuliException(20001,"有参数为空");
         }
 
         //查询数据库中是否存在相同的手机号码

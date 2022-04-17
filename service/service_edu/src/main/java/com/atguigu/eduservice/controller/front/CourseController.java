@@ -10,6 +10,7 @@ import com.atguigu.eduservice.model.frontvo.CourseWebVo;
 import com.atguigu.eduservice.model.vo.ChapterVo;
 import com.atguigu.eduservice.service.EduChapterService;
 import com.atguigu.eduservice.service.EduCourseService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -83,5 +84,14 @@ public class CourseController {
 
         CourseInfoVo courseInfo = courseService.getCourseInfo(courseId);
         return courseInfo;
+    }
+
+    // 搜索课程
+    @GetMapping("/searchCourse")
+    public R searchCourse(@RequestParam String searchStr) {
+        QueryWrapper<EduCourse> qw = new QueryWrapper<>();
+        qw.like("title", searchStr);
+        List<EduCourse> list = courseService.list(qw);
+        return R.ok().data("courseList", list);
     }
 }

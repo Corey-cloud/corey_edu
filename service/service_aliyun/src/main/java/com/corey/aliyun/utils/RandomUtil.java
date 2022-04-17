@@ -38,7 +38,7 @@ public class RandomUtil {
 
 		Random random = new Random();
 
-		HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
+		HashMap<Object, Object> hashMap = new HashMap<>();
 
 		// 生成随机数字并存入HashMap
 		for (int i = 0; i < list.size(); i++) {
