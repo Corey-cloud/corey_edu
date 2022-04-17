@@ -103,9 +103,9 @@ public class UserController {
         userDto.setCheckPass(RSAUtils.decryptBase64(userDto.getCheckPass()));
 
         // 后端校验
-        String regex1 = "[A-Za-z0-9]{5,10}";
+        String regex1 = "[A-Za-z0-9]{2,10}";
         if (!userDto.getUsername().matches(regex1)) {
-            return R.error().message("用户名不得小于5个或大于10个字符");
+            return R.error().message("用户名不得小于2个或大于10个字符");
         }
         int length = userDto.getNickName().length();
         if (length < 2 || length > 8) {
@@ -145,9 +145,9 @@ public class UserController {
         userDto.setUsername(RSAUtils.decryptBase64(userDto.getUsername()));
 
         // 后端校验
-        String regex1 = "[A-Za-z0-9]{5,10}";
+        String regex1 = "[A-Za-z0-9]{2,10}";
         if (!userDto.getUsername().matches(regex1)) {
-            return R.error().message("用户名不得小于5个或大于10个字符");
+            return R.error().message("用户名不得小于2个或大于10个字符");
         }
         int length = userDto.getNickName().length();
         if (length < 2 || length > 8) {

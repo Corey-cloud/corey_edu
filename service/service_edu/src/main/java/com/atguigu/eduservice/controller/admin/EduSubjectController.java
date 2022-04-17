@@ -32,7 +32,7 @@ public class EduSubjectController {
 
     // 添加课程分类
     @ApiOperation(value = "Excel批量导入")
-    @PostMapping("addSubject")
+    @PostMapping("/addSubject")
     public R addSubject(MultipartFile file) {
         eduSubjectService.saveSubject(file, eduSubjectService);
         return R.ok();
