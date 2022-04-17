@@ -1,6 +1,7 @@
 package com.atguigu.orderservice.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.atguigu.orderservice.client.EduClient;
 import com.atguigu.orderservice.entity.TOrder;
 import com.atguigu.orderservice.entity.TPayLog;
 import com.atguigu.orderservice.mapper.TPayLogMapper;
@@ -32,6 +33,9 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
 
     @Autowired
     private TOrderService orderService;
+
+    @Autowired
+    private EduClient eduClient;
 
     @Override
     public Map createNative(String orderNo) {
@@ -93,8 +97,10 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
         TOrder order = orderService.getOne(wrapper);
         if(order.getStatus() == 1) return;
         order.setStatus(1);
-        orderService.updateById(order);
-
+        boolean b = orderService.updateById(order);
+        if (b) {
+            eduClient.updateBuyCount(order.getCourseId());
+        }
         //记录支付日志
         TPayLog payLog=new TPayLog();
         payLog.setOrderNo(order.getOrderNo());//支付订单号

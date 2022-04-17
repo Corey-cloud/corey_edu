@@ -86,6 +86,14 @@ public class CourseController {
         return courseInfo;
     }
 
+    @PutMapping("/updateBuyCount/{courseId}")
+    boolean updateBuyCount(@PathVariable String courseId) {
+        EduCourse eduCourse = new EduCourse();
+        EduCourse course = courseService.getById(courseId);
+        eduCourse.setId(courseId).setBuyCount(course.getBuyCount()+1);
+        return courseService.updateById(eduCourse);
+    }
+
     // 搜索课程
     @GetMapping("/searchCourse")
     public R searchCourse(@RequestParam String searchStr) {
