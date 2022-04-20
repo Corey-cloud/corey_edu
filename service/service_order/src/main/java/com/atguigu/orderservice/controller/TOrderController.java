@@ -60,7 +60,7 @@ public class TOrderController {
         new Thread(
                 ()->{
                     try {
-                        Thread.sleep(30*60*1000);
+                        Thread.sleep(5*60*60*1000);
                         System.out.println("order_no:"+orderId);
                         TOrder one1 = orderService.getOne(new QueryWrapper<TOrder>().eq("order_no", orderId).eq("status", 0));
                         System.out.println("one:"+one1);
