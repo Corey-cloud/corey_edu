@@ -25,13 +25,13 @@ public class CrmBannerController {
     @Autowired
     private CrmBannerService bannerService;
 
-    @ApiOperation(value = "获取Banner分页列表")
+    @ApiOperation(value = "获取轮播图列表")
     @GetMapping
-    public R pageList(
+    public R getList(
             @ApiParam(name = "page", value = "当前页码", required = true)
-            @RequestParam Integer page,
+            @PathVariable Integer page,
             @ApiParam(name = "limit", value = "每页记录数", required = true)
-            @RequestParam Integer limit) {
+            @PathVariable Integer limit) {
         Page<CrmBanner> pageParam = new Page<>(page, limit);
         bannerService.pageBanner(pageParam, null);
         return R.ok().data("items", pageParam.getRecords()).data("total", pageParam.getTotal());
