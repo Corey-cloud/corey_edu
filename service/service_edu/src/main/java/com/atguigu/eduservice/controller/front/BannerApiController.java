@@ -16,8 +16,7 @@ import java.util.List;
  * Created by corey on 2021/7/27
  **/
 
-@Api(description = "网站首页Banner列表")
-//@CrossOrigin //跨域
+@Api("网站首页Banner列表")
 @RestController
 @RequestMapping("/edu/banners")
 public class BannerApiController {

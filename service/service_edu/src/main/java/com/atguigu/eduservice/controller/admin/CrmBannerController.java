@@ -26,7 +26,7 @@ public class CrmBannerController {
     private CrmBannerService bannerService;
 
     @ApiOperation(value = "获取轮播图列表")
-    @GetMapping
+    @GetMapping("/{page}/{limit}")
     public R getList(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Integer page,
