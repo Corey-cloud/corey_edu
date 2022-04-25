@@ -4,11 +4,13 @@ import com.atguigu.commonutils.JwtUtils;
 import com.atguigu.commonutils.R;
 import com.atguigu.commonutils.vo.CourseInfoVo;
 import com.atguigu.eduservice.client.OrderClient;
+import com.atguigu.eduservice.model.entity.EduCollect;
 import com.atguigu.eduservice.model.entity.EduCourse;
 import com.atguigu.eduservice.model.frontvo.CourseQueryVo;
 import com.atguigu.eduservice.model.frontvo.CourseWebVo;
 import com.atguigu.eduservice.model.vo.ChapterVo;
 import com.atguigu.eduservice.service.EduChapterService;
+import com.atguigu.eduservice.service.EduCollectService;
 import com.atguigu.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -41,6 +43,9 @@ public class CourseController {
     @Autowired
     private OrderClient orderClient;
 
+    @Autowired
+    private EduCollectService collectService;
+
     @ApiOperation(value = "分页课程列表")
     @PostMapping(value = "/{page}/{limit}")
     public R pageList(
@@ -70,12 +75,19 @@ public class CourseController {
 
         boolean token = JwtUtils.checkToken(request);
         boolean buyCourse = false;
+        boolean isCollect = false;
         if (token) {
             //远程调用，判断课程是否被购买
             buyCourse = orderClient.isBuyCourse(JwtUtils.getMemberIdByJwtToken(request), courseId);
+
+            // 判断用户是否收藏该课程
+            EduCollect one = collectService.getOne(new QueryWrapper<EduCollect>().eq("member_id", JwtUtils.getMemberIdByJwtToken(request)).eq("course_id", courseId));
+            if (one != null) {
+                isCollect = true;
+            }
         }
 
-        return R.ok().data("course", courseWebVo).data("chapterVoList", chapterVoList).data("isBuyCourse", buyCourse);
+        return R.ok().data("course", courseWebVo).data("chapterVoList", chapterVoList).data("isBuyCourse", buyCourse).data("isCollect", isCollect);
     }
 
     //根据课程id查询课程信息
@@ -102,4 +114,5 @@ public class CourseController {
         List<EduCourse> list = courseService.list(qw);
         return R.ok().data("courseList", list);
     }
+
 }
