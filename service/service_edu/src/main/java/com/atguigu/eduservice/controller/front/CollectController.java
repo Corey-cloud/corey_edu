@@ -6,8 +6,6 @@ import com.atguigu.eduservice.model.entity.EduCourse;
 import com.atguigu.eduservice.service.EduCollectService;
 import com.atguigu.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
