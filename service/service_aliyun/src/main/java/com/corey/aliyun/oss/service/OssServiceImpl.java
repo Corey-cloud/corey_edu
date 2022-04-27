@@ -70,6 +70,7 @@ public class OssServiceImpl implements OssService {
             // 返回上传成功后的文件路径
             // https://corey-edu.oss-cn-shenzhen.aliyuncs.com/4adf0004b076304639ba.jfif
             String url = "https://"+bucketName+"."+endpoint+"/"+fileName;
+            System.out.println(url);
             return url;
 
         } catch (Exception e) {

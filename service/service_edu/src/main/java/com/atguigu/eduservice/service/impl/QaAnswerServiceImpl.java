@@ -62,42 +62,13 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
 
     @Override
     public void reply(QaAnswer answer) {
-        QaQuestion qaQuestion = queryQtAnswer(answer.getQuestionId());
-        int count1 = queryCommentCount(answer.getQuestionId());
-        int count2 = secondAnswerService.queryCommentCount(answer.getQuestionId());
-        qaQuestion.setQaComments(count1+count2);
-        questionService.updateById(qaQuestion);
         baseMapper.insert(answer);
-    }
-
-    /**
-     * 获取Question信息
-     * @param id
-     * @return
-     */
-    public QaQuestion queryQtAnswer(String id) {
-        return questionService.getById(id);
-    }
-
-    /**
-     * 获取评论个数
-     * @param id
-     * @return
-     */
-    public int queryCommentCount(String id) {
-        return baseMapper.selectCount(new QueryWrapper<QaAnswer>().eq("question_id",id));
-    }
-
-    /**
-     * 根据问题id获取回答列表
-     * @param questionId
-     * @param pageParam
-     * @return
-     */
-    private Page selectAnswerByQuestionId(Integer questionId, Page pageParam) {
-        QueryWrapper<QaAnswer> qw = new QueryWrapper<>();
-        qw.eq("question_id",questionId);
-        qw.orderByDesc("gmt_create");
-        return (Page) baseMapper.selectPage(pageParam, qw);
+        QaQuestion question = new QaQuestion();
+        question.setId(answer.getQuestionId());
+        QaQuestion qaQuestion = questionService.getById(answer.getQuestionId());
+        question.setQaComments(qaQuestion.getQaComments()+1);
+        System.out.println("-----打印评论数------");
+        System.out.println(qaQuestion.getQaComments()+1);
+        questionService.updateById(question);
     }
 }

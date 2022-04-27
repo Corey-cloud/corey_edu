@@ -6,6 +6,7 @@ import com.atguigu.eduservice.model.entity.QaQuestion;
 import com.atguigu.eduservice.model.frontvo.QaUpdateVo;
 import com.atguigu.eduservice.model.frontvo.QuestionQueryVo;
 import com.atguigu.eduservice.service.QaQuestionService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +108,11 @@ public class QaQuestionController {
     @GetMapping("/{id}")
     public R get(@PathVariable("id") String id) {
         try {
+            QaQuestion qaQuestion = questionService.getById(id);
+            QaQuestion question = new QaQuestion();
+            question.setId(id);
+            question.setQaView(qaQuestion.getQaView()+1);
+            questionService.updateById(question);
             return R.ok().data("question", questionService.getById(id));
         } catch (Exception e) {
             return R.error();

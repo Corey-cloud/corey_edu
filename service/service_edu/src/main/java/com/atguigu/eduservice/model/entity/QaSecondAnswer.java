@@ -26,10 +26,10 @@ public class QaSecondAnswer implements Serializable {
     private String id;
 
     @ApiModelProperty(value = "回复id")
-    private Integer answerId;
+    private String answerId;
 
     @ApiModelProperty(value = "问题id")
-    private Integer questionId;
+    private String questionId;
 
     @ApiModelProperty(value = "二级回复详情")
     private String asDetails;

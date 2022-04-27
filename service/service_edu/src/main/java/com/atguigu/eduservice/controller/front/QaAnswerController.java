@@ -22,28 +22,14 @@ public class QaAnswerController {
     @Autowired
     private QaAnswerService answerService;
 
-    @Autowired
-    private QaQuestionService questionService;
-
     @ApiOperation(value = "回帖")
     @PostMapping("/reply")
     public R reply(@RequestBody QaAnswer answer) {
         try {
             answerService.reply(answer);
-            QaQuestion question = questionService.getById(answer.getQuestionId());
-            question.setQaComments(question.getQaComments()+1);
             return R.ok();
         }catch (Exception e){
             return R.error();
         }
-    }
-
-    @ApiOperation(value = "获取回帖子列表")
-    @PostMapping("/getAnswerList/{page}/{limit}")
-    public R getQuestionList(@PathVariable("page") Integer page,
-                             @PathVariable("limit") Integer limit,
-                             @RequestParam String questionId) {
-        Map<String, Object> map = answerService.getAnswerAnd2Answer(page, limit, questionId);
-        return R.ok().data(map);
     }
 }
