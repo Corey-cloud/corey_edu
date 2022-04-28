@@ -33,10 +33,12 @@ public class QaQuestionController {
     @GetMapping("/getQaAnswerList/{id}")
     public R getQtAnswerList(@PathVariable("id") String id) {
         try {
-            QaQuestion qaQuestion = questionService.queryQaAnswer(id);
             QaQuestion question = questionService.getById(id);
-            question.setQaView(question.getQaView() + 1);
-            questionService.updateById(question);
+            QaQuestion q = new QaQuestion();
+            q.setQaView(question.getQaView() + 1);
+            q.setId(id);
+            questionService.updateById(q);
+            QaQuestion qaQuestion = questionService.queryQaAnswer(id);
             return R.ok().data("questionTree", qaQuestion);
         } catch (Exception e) {
             return R.error();

@@ -88,10 +88,15 @@ public class TOrderController {
     public R getMyOrderList(
             @PathVariable Long page,
             @PathVariable Long limit,
-            @RequestParam String memberId) {
+            @RequestParam String memberId,
+            @RequestParam Integer queryStatus) {
         Page<TOrder> pageParam = new Page<>(page, limit);
         QueryWrapper<TOrder> wrapper = new QueryWrapper<>();
-        wrapper.eq("member_id",memberId);
+        if (queryStatus == -1) {
+            wrapper.eq("member_id",memberId);
+        } else {
+            wrapper.eq("member_id",memberId).eq("status", queryStatus);
+        }
         orderService.page(pageParam, wrapper);
 
         Map<String, Object> map = new HashMap<>();
