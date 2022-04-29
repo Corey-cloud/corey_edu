@@ -32,4 +32,17 @@ public class QaAnswerController {
             return R.error();
         }
     }
+
+    @PutMapping("/zan/{id}")
+    public R zan(@PathVariable String id) {
+        QaAnswer answer = answerService.getById(id);
+        if (answer == null) {
+            return R.error().message("该评论不存在");
+        }
+        QaAnswer answer1 = new QaAnswer();
+        answer1.setId(id);
+        answer1.setZanCount(answer.getZanCount()+1);
+        answerService.updateById(answer1);
+        return R.ok();
+    }
 }

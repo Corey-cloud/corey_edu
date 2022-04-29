@@ -45,6 +45,9 @@ public class QaAnswer implements Serializable {
     @TableField(exist = false)
     private List<QaSecondAnswer> answer2List;
 
+    @ApiModelProperty(value = "点赞数")
+    private Integer zanCount;
+
     @ApiModelProperty(value = "删除标识")
     @TableLogic
     private Integer isDeleted;

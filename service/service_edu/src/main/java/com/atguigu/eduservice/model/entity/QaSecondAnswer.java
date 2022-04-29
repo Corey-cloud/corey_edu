@@ -34,6 +34,9 @@ public class QaSecondAnswer implements Serializable {
     @ApiModelProperty(value = "二级回复详情")
     private String asDetails;
 
+    @ApiModelProperty(value = "点赞数")
+    private Integer zanCount;
+
     @ApiModelProperty(value = "会员id")
     private String memberId;
 

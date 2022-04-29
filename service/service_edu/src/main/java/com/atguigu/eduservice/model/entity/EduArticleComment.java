@@ -45,6 +45,9 @@ public class EduArticleComment implements Serializable {
     @ApiModelProperty(value = "文章评论信息")
     private String content;
 
+    @ApiModelProperty(value = "点赞数")
+    private Integer zanCount;
+
     @ApiModelProperty(value = "删除标识")
     @TableLogic
     private Integer isDeleted;

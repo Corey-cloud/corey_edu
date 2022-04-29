@@ -6,6 +6,7 @@ import com.atguigu.commonutils.vo.UcenterMemberVo;
 import com.atguigu.eduservice.client.UcenterClient;
 import com.atguigu.eduservice.model.entity.EduArticle;
 import com.atguigu.eduservice.model.entity.EduArticleComment;
+import com.atguigu.eduservice.model.entity.QaAnswer;
 import com.atguigu.eduservice.service.EduArticleCommentService;
 import com.atguigu.eduservice.service.EduArticleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -92,5 +93,17 @@ public class ArticleCommentController {
         return R.ok();
     }
 
+    @PutMapping("/zan/{id}")
+    public R zan(@PathVariable String id) {
+        EduArticleComment comment = articleCommentService.getById(id);
+        if (comment == null) {
+            return R.error().message("该评论不存在");
+        }
+        EduArticleComment comment1 = new EduArticleComment();
+        comment1.setId(id);
+        comment1.setZanCount(comment.getZanCount()+1);
+        articleCommentService.updateById(comment1);
+        return R.ok();
+    }
 
 }
