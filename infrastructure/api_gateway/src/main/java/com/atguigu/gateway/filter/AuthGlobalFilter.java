@@ -4,6 +4,7 @@ package com.atguigu.gateway.filter;
  * Created by corey on 2021/8/2
  **/
 
+import com.atguigu.commonutils.JwtUtils;
 import com.google.gson.JsonObject;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -41,11 +42,11 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                 return out(response);
             } else {
 
-                // Boolean isCheck = JwtUtils.checkToken(tokenList.get(0));
-                // if(!isCheck) {
+                 Boolean isCheck = JwtUtils.checkToken(tokenList.get(0));
+                 if(!isCheck) {
                 ServerHttpResponse response = exchange.getResponse();
                 return out(response);
-            // }
+             }
             }
         }
 

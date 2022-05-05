@@ -2,13 +2,17 @@ package com.atguigu.ucenterservice.controller;
 
 
 import com.atguigu.commonutils.R;
+import com.atguigu.ucenterservice.entity.UcenterMember;
+import com.atguigu.ucenterservice.entity.vo.MemberVo;
 import com.atguigu.ucenterservice.service.UcenterMemberService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 /**
  * <p>
@@ -33,6 +37,59 @@ public class UcenterMemberController {
         } else {
             return R.error();
         }
+    }
+
+    @GetMapping
+    public R pageList(@RequestParam Integer page,
+                      @RequestParam Integer limit,
+                      MemberVo member) {
+        Page<UcenterMember> pageParam = new Page<>(page, limit);
+        QueryWrapper<UcenterMember> wrapper = new QueryWrapper<>();
+        if (member != null) {
+            if (!StringUtils.isEmpty(member.getNickname())) {
+                wrapper.like("nickname", member.getNickname());
+            }
+            if (!StringUtils.isEmpty(member.getMobile())) {
+                wrapper.like("mobile", member.getMobile());
+            }
+            if (!StringUtils.isEmpty(member.getBegin())) {
+                wrapper.ge("gmt_create", member.getBegin());
+            }
+            if (!StringUtils.isEmpty(member.getEnd())) {
+                wrapper.le("gmt_create", member.getEnd());
+            }
+            if (!StringUtils.isEmpty(member.getIsDisabled())) {
+                wrapper.eq("is_disabled", member.getIsDisabled());
+            }
+        }
+        IPage<UcenterMember> pageModel = memberService.page(pageParam, wrapper.orderByDesc("gmt_create"));
+        List<UcenterMember> records = pageModel.getRecords();
+        long total = pageModel.getTotal();
+        return R.ok().data("records", records).data("total", total);
+    }
+
+    @GetMapping("/{id}")
+    public R getById(@PathVariable String id) {
+        UcenterMember member = memberService.getById(id);
+        return R.ok().data("member", member);
+    }
+
+    @PutMapping
+    public R update(@RequestBody UcenterMember member) {
+        boolean update = memberService.updateById(member);
+        if (update) {
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    @DeleteMapping
+    public R deleteById(@RequestParam String id) {
+        boolean delete = memberService.removeById(id);
+        if (delete) {
+            return R.ok();
+        }
+        return R.error();
     }
 }
 

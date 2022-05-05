@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @RestController
 //@CrossOrigin
-@RequestMapping("/staservice/statistics-daily")
+@RequestMapping("/staservice/admin/statistics-daily")
 public class StatisticsDailyController {
 
     @Autowired

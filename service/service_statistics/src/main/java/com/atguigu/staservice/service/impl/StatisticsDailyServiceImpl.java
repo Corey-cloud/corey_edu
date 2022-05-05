@@ -60,8 +60,8 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
         List<StatisticsDaily> dayList = baseMapper.selectList(dayQueryWrapper);
 
         Map<String, Object> map = new HashMap<>();
-        List<Integer> dataList = new ArrayList<Integer>();
-        List<String> dateList = new ArrayList<String>();
+        List<Integer> dataList = new ArrayList<>();
+        List<String> dateList = new ArrayList<>();
         map.put("dataList", dataList);
         map.put("dateList", dateList);
 
