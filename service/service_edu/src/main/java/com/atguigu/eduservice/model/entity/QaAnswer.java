@@ -48,6 +48,9 @@ public class QaAnswer implements Serializable {
     @ApiModelProperty(value = "点赞数")
     private Integer zanCount;
 
+    @ApiModelProperty(value = "ip归属地")
+    private String comeFrom;
+
     @ApiModelProperty(value = "删除标识")
     @TableLogic
     private Integer isDeleted;

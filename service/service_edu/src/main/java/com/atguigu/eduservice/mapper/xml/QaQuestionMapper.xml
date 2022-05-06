@@ -29,6 +29,7 @@
             <result property="questionId" column="question_id"></result>
             <result property="answerDetails" column="answer_details"></result>
             <result property="zanCount" column="zan_count"></result>
+            <result property="comeFrom" column="come_from"></result>
             <result property="gmtCreate" column="gmt_create"></result>
         </collection>
     </resultMap>
@@ -45,6 +46,7 @@
         <result property="questionId" column="question_id"></result>
         <result property="answerDetails" column="answer_details"></result>
         <result property="zanCount" column="zan_count"></result>
+        <result property="comeFrom" column="come_from"></result>
         <result property="gmtCreate" column="gmt_create"></result>
         <collection  javaType="ArrayList"  property="answer2List" column="id" ofType="com.atguigu.eduservice.model.entity.QaSecondAnswer" select="select2Answer"/>
     </resultMap>

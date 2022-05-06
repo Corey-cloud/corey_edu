@@ -46,6 +46,9 @@ public class QaSecondAnswer implements Serializable {
     @ApiModelProperty(value = "会员头像")
     private String memberAvatar;
 
+    @ApiModelProperty(value = "ip归属地")
+    private String comeFrom;
+
     @ApiModelProperty(value = "删除标识",required = false)
     @TableLogic
     private Boolean isDeleted;

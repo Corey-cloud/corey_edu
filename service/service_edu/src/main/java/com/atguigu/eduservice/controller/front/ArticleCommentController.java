@@ -1,5 +1,6 @@
 package com.atguigu.eduservice.controller.front;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.commonutils.JwtUtils;
 import com.atguigu.commonutils.R;
 import com.atguigu.commonutils.vo.UcenterMemberVo;
@@ -9,6 +10,8 @@ import com.atguigu.eduservice.model.entity.EduArticleComment;
 import com.atguigu.eduservice.model.entity.QaAnswer;
 import com.atguigu.eduservice.service.EduArticleCommentService;
 import com.atguigu.eduservice.service.EduArticleService;
+import com.atguigu.eduservice.utils.HttpURLUtil;
+import com.atguigu.eduservice.utils.IP;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -79,6 +82,22 @@ public class ArticleCommentController {
         }
         articleComment.setNickname(ucenterInfo.getNickname());
         articleComment.setAvatar(ucenterInfo.getAvatar());
+
+        // 获取请求主机IP地址
+        String ip = IP.getIpAddress(request);
+        System.out.println("ip:" + ip);
+
+        // IP归属地查询
+        String url = "http://whois.pconline.com.cn/ipJson.jsp?json=true&ip=";
+        url += ip;
+        String data = HttpURLUtil.doGet(url);
+
+        Map map = JSON.parseObject(data);
+
+        String province = (String) map.get("pro");
+        String city = (String) map.get("city");
+
+        articleComment.setComeFrom(province+city);
         articleCommentService.save(articleComment);
 
         // 获取该文章下的评论数

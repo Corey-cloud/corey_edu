@@ -45,6 +45,9 @@ public class EduArticleComment implements Serializable {
     @ApiModelProperty(value = "文章评论信息")
     private String content;
 
+    @ApiModelProperty(value = "ip归属地")
+    private String comeFrom;
+
     @ApiModelProperty(value = "点赞数")
     private Integer zanCount;
 

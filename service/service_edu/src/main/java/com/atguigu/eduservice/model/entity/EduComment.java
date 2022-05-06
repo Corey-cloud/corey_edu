@@ -54,6 +54,11 @@ public class EduComment implements Serializable {
     @ApiModelProperty(value = "逻辑删除 1（true）已删除， 0（false）未删除")
     private Boolean isDeleted;
 
+    @ApiModelProperty(value = "点赞数")
+    private Integer zanCount;
+    @ApiModelProperty(value = "ip归属地")
+    private String comeFrom;
+
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private Date gmtCreate;

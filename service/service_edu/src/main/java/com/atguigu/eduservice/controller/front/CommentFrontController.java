@@ -1,13 +1,17 @@
 package com.atguigu.eduservice.controller.front;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.commonutils.JwtUtils;
 import com.atguigu.commonutils.R;
 import com.atguigu.commonutils.vo.UcenterMemberVo;
 import com.atguigu.eduservice.client.UcenterClient;
+import com.atguigu.eduservice.model.entity.EduArticleComment;
 import com.atguigu.eduservice.model.entity.EduComment;
 import com.atguigu.eduservice.model.entity.EduCourse;
 import com.atguigu.eduservice.service.EduCommentService;
 import com.atguigu.eduservice.service.EduCourseService;
+import com.atguigu.eduservice.utils.HttpURLUtil;
+import com.atguigu.eduservice.utils.IP;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -18,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +37,7 @@ import java.util.Map;
 @RequestMapping("/edu/comments")
 //@CrossOrigin
 public class CommentFrontController {
+
     @Autowired
     private EduCommentService commentService;
 
@@ -68,7 +75,7 @@ public class CommentFrontController {
 
     @ApiOperation(value = "添加评论")
     @PostMapping("auth/save")
-    public R save(@RequestBody EduComment comment, HttpServletRequest request) {
+    public R save(@RequestBody EduComment comment, HttpServletRequest request) throws Exception {
         boolean token = JwtUtils.checkToken(request);
         if (!token) {
             return R.error().code(28000).message("未登录评论");
@@ -84,6 +91,23 @@ public class CommentFrontController {
         }
         comment.setNickname(ucenterInfo.getNickname());
         comment.setAvatar(ucenterInfo.getAvatar());
+
+        // 获取请求主机IP地址
+        String ip = IP.getIpAddress(request);
+        System.out.println("ip:" + ip);
+
+        // IP归属地查询
+        String url = "http://whois.pconline.com.cn/ipJson.jsp?json=true&ip=";
+        url += ip;
+        String data = HttpURLUtil.doGet(url);
+
+        Map map = JSON.parseObject(data);
+
+        String province = (String) map.get("pro");
+        String city = (String) map.get("city");
+
+        comment.setComeFrom(province+city);
+
         commentService.save(comment);
 
         // 获取该课程下的评论数
@@ -97,4 +121,18 @@ public class CommentFrontController {
         courseService.updateById(course);
         return R.ok();
     }
+
+    @PutMapping("/zan/{id}")
+    public R zan(@PathVariable String id) {
+        EduComment comment = commentService.getById(id);
+        if (comment == null) {
+            return R.error().message("该评论不存在");
+        }
+        EduComment comment1 = new EduComment();
+        comment1.setId(id);
+        comment1.setZanCount(comment.getZanCount()+1);
+        commentService.updateById(comment1);
+        return R.ok();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.atguigu.eduservice.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.eduservice.mapper.QaAnswerMapper;
 import com.atguigu.eduservice.model.entity.QaAnswer;
 import com.atguigu.eduservice.model.entity.QaQuestion;
@@ -7,12 +8,15 @@ import com.atguigu.eduservice.model.entity.QaSecondAnswer;
 import com.atguigu.eduservice.service.QaAnswerService;
 import com.atguigu.eduservice.service.QaQuestionService;
 import com.atguigu.eduservice.service.QaSecondAnswerService;
+import com.atguigu.eduservice.utils.HttpURLUtil;
+import com.atguigu.eduservice.utils.IP;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +65,22 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
     }
 
     @Override
-    public void reply(QaAnswer answer) {
+    public void reply(QaAnswer answer, HttpServletRequest request) {
+        // 获取请求主机IP地址
+        String ip = IP.getIpAddress(request);
+        System.out.println("ip:" + ip);
+
+        // IP归属地查询
+        String url = "http://whois.pconline.com.cn/ipJson.jsp?json=true&ip=";
+        url += ip;
+        String data = HttpURLUtil.doGet(url);
+
+        Map map = JSON.parseObject(data);
+
+        String province = (String) map.get("pro");
+        String city = (String) map.get("city");
+
+        answer.setComeFrom(province+city);
         baseMapper.insert(answer);
         QaQuestion question = new QaQuestion();
         question.setId(answer.getQuestionId());

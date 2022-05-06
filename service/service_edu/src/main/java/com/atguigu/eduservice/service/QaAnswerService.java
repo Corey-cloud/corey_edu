@@ -3,6 +3,7 @@ package com.atguigu.eduservice.service;
 import com.atguigu.eduservice.model.entity.QaAnswer;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -17,5 +18,5 @@ public interface QaAnswerService extends IService<QaAnswer> {
      * 回帖
      * @param answer
      */
-    void reply(QaAnswer answer);
+    void reply(QaAnswer answer, HttpServletRequest request);
 }
