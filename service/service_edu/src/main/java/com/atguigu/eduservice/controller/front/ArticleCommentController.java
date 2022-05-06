@@ -85,7 +85,7 @@ public class ArticleCommentController {
 
         // 获取请求主机IP地址
         String ip = IP.getIpAddress(request);
-        System.out.println("ip:" + ip);
+        System.out.println("ip：" + ip);
 
         // IP归属地查询
         String url = "http://whois.pconline.com.cn/ipJson.jsp?json=true&ip=";
@@ -96,7 +96,7 @@ public class ArticleCommentController {
 
         String province = (String) map.get("pro");
         String city = (String) map.get("city");
-
+        System.out.println("归属地：" + province+city);
         articleComment.setComeFrom(province+city);
         articleCommentService.save(articleComment);
 
