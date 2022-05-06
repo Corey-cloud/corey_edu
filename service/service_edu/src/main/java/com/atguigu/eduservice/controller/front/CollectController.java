@@ -35,7 +35,7 @@ public class CollectController {
             courseIds.add(ec.getCourseId());
         }
         QueryWrapper<EduCourse> qw2 = new QueryWrapper<>();
-        qw2.in("id", courseIds);
+        qw2.in("id", courseIds).orderByDesc("gmt_create");
         List<EduCourse> collectList = courseService.list(qw2);
         return R.ok().data("collectList", collectList);
     }
