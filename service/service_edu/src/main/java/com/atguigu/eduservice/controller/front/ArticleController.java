@@ -51,6 +51,10 @@ public class ArticleController {
     public R getById(
             @ApiParam(name = "articleId", value = "文章ID", required = true)
             @PathVariable String id) {
+        EduArticle article1 = articleService.getById(id);
+        EduArticle eduArticle = new EduArticle();
+        eduArticle.setId(id).setContentView(article1.getContentView()+1);
+        articleService.updateById(eduArticle);
         EduArticle article = articleService.getById(id);
         return R.ok().data("article", article);
     }
