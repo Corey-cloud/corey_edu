@@ -18,13 +18,13 @@ import java.util.Map;
  */
 @RestController
 //@CrossOrigin
-@RequestMapping("/staservice/admin/statistics-daily")
+@RequestMapping("/statistics/admin/statistics-daily")
 public class StatisticsDailyController {
 
     @Autowired
     private StatisticsDailyService dailyService;
 
-    @PostMapping("{day}")
+    @PostMapping("/{day}")
     public R createStatisticsByDate(@PathVariable String day) {
         dailyService.createStatisticsByDay(day);
         return R.ok();

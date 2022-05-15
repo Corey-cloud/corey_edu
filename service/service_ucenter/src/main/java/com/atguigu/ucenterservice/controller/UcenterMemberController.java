@@ -23,13 +23,13 @@ import java.util.List;
  * @since 2021-07-29
  */
 @RestController
-@RequestMapping("/ucenter/admin/member")
+@RequestMapping("/ucenter")
 public class UcenterMemberController {
 
     @Autowired
     private UcenterMemberService memberService;
 
-    @GetMapping(value = "countregister/{day}")
+    @GetMapping(value = "/member/countregister/{day}")
     public R registerCount(@PathVariable String day){
         Integer count = memberService.countRegisterByDay(day);
         if (count != null) {
@@ -39,7 +39,7 @@ public class UcenterMemberController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/admin/member")
     public R pageList(@RequestParam Integer page,
                       @RequestParam Integer limit,
                       MemberVo member) {
@@ -68,13 +68,13 @@ public class UcenterMemberController {
         return R.ok().data("records", records).data("total", total);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/admin/member")
     public R getById(@PathVariable String id) {
         UcenterMember member = memberService.getById(id);
         return R.ok().data("member", member);
     }
 
-    @PutMapping
+    @PutMapping("/admin/member")
     public R update(@RequestBody UcenterMember member) {
         boolean update = memberService.updateById(member);
         if (update) {
@@ -83,7 +83,7 @@ public class UcenterMemberController {
         return R.error();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/admin/member")
     public R deleteById(@RequestParam String id) {
         boolean delete = memberService.removeById(id);
         if (delete) {

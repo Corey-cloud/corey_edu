@@ -20,15 +20,6 @@ public class IndexController {
     @Autowired
     private IndexService indexService;
 
-    @ApiOperation(value = "获取公钥")
-    @GetMapping("/publicKey")
-    public R getKey() {
-        System.out.println("------获取公钥------");
-        String publicKey = RSAUtils.generateBase64PublicKey();
-        System.out.println(publicKey);
-        return R.ok().data("publicKey", publicKey);
-    }
-
     /**
      * 根据token获取用户信息
      */
