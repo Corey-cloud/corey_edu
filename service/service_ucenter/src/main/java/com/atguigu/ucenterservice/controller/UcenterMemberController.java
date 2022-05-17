@@ -68,7 +68,7 @@ public class UcenterMemberController {
         return R.ok().data("records", records).data("total", total);
     }
 
-    @GetMapping("/{id}/admin/member")
+    @GetMapping("/admin/member/{id}")
     public R getById(@PathVariable String id) {
         UcenterMember member = memberService.getById(id);
         return R.ok().data("member", member);

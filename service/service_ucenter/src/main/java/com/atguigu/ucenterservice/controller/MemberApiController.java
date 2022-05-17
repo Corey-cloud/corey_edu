@@ -64,6 +64,8 @@ public class MemberApiController {
     @GetMapping("auth/getLoginInfo")
     public R getLoginInfo(HttpServletRequest request){
         try {
+            String token = request.getHeader("token");
+            System.out.println("token:"+token);
             String memberId = JwtUtils.getMemberIdByJwtToken(request);
             System.out.println("memberId: "+ memberId);
             UcenterMember loginInfoVo = memberService.getLoginInfo(memberId);
