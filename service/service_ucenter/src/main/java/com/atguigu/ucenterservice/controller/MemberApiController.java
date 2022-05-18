@@ -108,7 +108,7 @@ public class MemberApiController {
         }
         UcenterMember member = new UcenterMember();
         BeanUtils.copyProperties(user, member);
-        //根据用户id获取用户信息
+        //根据用户id修改用户信息
         boolean flag = memberService.updateById(member);
         if (flag) {
             return R.ok();

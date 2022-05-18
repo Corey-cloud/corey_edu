@@ -102,7 +102,7 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         member.setMobile(registerVo.getMobile());
         member.setPassword(MD5.encrypt(password));
         member.setIsDisabled(false);
-        member.setAvatar("http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132");
+        member.setAvatar("https://corey-edu.oss-cn-shenzhen.aliyuncs.com/avatar/default.jpg");
         this.save(member);
     }
 

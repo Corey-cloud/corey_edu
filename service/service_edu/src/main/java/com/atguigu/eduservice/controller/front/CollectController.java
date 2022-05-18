@@ -31,13 +31,18 @@ public class CollectController {
         ArrayList<String> courseIds = new ArrayList<>();
         QueryWrapper<EduCollect> qw1 = new QueryWrapper<EduCollect>().eq("member_id", memberId);
         List<EduCollect> list = collectService.list(qw1);
-        for (EduCollect ec : list) {
-            courseIds.add(ec.getCourseId());
+        if (list != null && list.size() != 0) {
+            for (EduCollect ec : list) {
+                courseIds.add(ec.getCourseId());
+            }
+            QueryWrapper<EduCourse> qw2 = new QueryWrapper<>();
+            qw2.in("id", courseIds);
+            qw2.orderByDesc("gmt_create");
+
+            List<EduCourse> collectList = courseService.list(qw2);
+            return R.ok().data("collectList", collectList);
         }
-        QueryWrapper<EduCourse> qw2 = new QueryWrapper<>();
-        qw2.in("id", courseIds).orderByDesc("gmt_create");
-        List<EduCourse> collectList = courseService.list(qw2);
-        return R.ok().data("collectList", collectList);
+        return R.ok().data("collectList", null);
     }
 
     // 收藏
