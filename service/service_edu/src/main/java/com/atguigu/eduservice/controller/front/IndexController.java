@@ -87,13 +87,6 @@ public class IndexController {
             }
         }
 
-        System.out.println(res.get(0));
-        System.out.println(res.get(1));
-        System.out.println(res.get(2));
-        System.out.println(res.get(3));
-        System.out.println(res.get(4));
-        System.out.println(res.get(5));
-        System.out.println(res.get(6));
         //首页排行榜
         QueryWrapper<EduCourse> rankWrapper = new QueryWrapper<>();
         rankWrapper.orderByDesc("view_count").last("limit 10");
